@@ -81,12 +81,12 @@ export function useGeoSession(phase: PhaseDefinition, modeId: SoloModeId) {
   const fillOverrides = useMemo(() => {
     const fills: Record<string, string> = {};
     if (modeId === 'name' && session.currentRegionId && session.status === 'playing') {
-      fills[session.currentRegionId] = '#2f6f5e';
+      fills[session.currentRegionId] = '#6a5ae0';
     }
     if (session.lastFeedback) {
       fills[session.lastFeedback.regionId] = session.lastFeedback.correct
-        ? '#3d8b6e'
-        : '#b85c4a';
+        ? '#22c55e'
+        : '#ef4444';
     }
     return fills;
   }, [modeId, session]);

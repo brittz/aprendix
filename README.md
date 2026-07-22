@@ -8,19 +8,11 @@ Plataforma de **desenvolvimento cognitivo** — módulos educativos que comparti
 
 ## Estado atual
 
-**Fase 2.1 — Bebês (0–1)** entregue: módulo “Primeiros estímulos” com 7 atividades free (sem pontuação/cronômetro/competição).
-
-**Próximo no roadmap:** faixas 1–2+ ([`docs/gdd/15-roadmap.md`](docs/gdd/15-roadmap.md)) ou polimento/audio nativo na Fase 3.
-
----
-
-## Desenvolvimento
+**Fase 2.1 — Bebês** e **UI mobile-first** (home, tabs, geografia, resultado, revisão) no ar.
 
 ```bash
 npm run dev
 ```
-
-Fluxo: Home → Geografia → Estados do Brasil → Treino / Encontre / Nomeie.
 
 ---
 

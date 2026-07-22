@@ -1,0 +1,37 @@
+.games-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.games-item {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 0.85rem;
+  align-items: center;
+  text-align: left;
+  padding: 0.95rem;
+  color: inherit;
+  width: 100%;
+}
+
+.games-item h2 {
+  margin: 0 0 0.2rem;
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.games-item p {
+  margin: 0;
+  color: var(--ax-muted);
+  font-size: 0.88rem;
+}
+
+.games-item-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+}
+
+.games-item.is-soon {
+  opacity: 0.55;
+}

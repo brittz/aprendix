@@ -1,42 +1,122 @@
-/* Aprendix theme tokens — calm cognitive development palette */
-:root {
-  --ax-bg: #f3f0ea;
-  --ax-surface: #fffcf7;
-  --ax-ink: #1c2430;
-  --ax-muted: #5c6675;
-  --ax-accent: #2f6f5e;
-  --ax-accent-contrast: #ffffff;
-  --ax-map-height: min(70vh, 560px);
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800&display=swap');
 
-  --ion-font-family: "Segoe UI", "Helvetica Neue", sans-serif;
+/* Aprendix — mobile-first UI aligned to product mockup */
+:root {
+  --ax-bg: #f4f6fb;
+  --ax-surface: #ffffff;
+  --ax-ink: #1f2430;
+  --ax-muted: #6b7280;
+  --ax-line: rgba(31, 36, 48, 0.08);
+  --ax-accent: #6a5ae0;
+  --ax-accent-soft: #eeebff;
+  --ax-accent-contrast: #ffffff;
+  --ax-success: #22c55e;
+  --ax-danger: #ef4444;
+  --ax-warn: #f59e0b;
+  --ax-radius: 18px;
+  --ax-radius-sm: 14px;
+  --ax-shadow: 0 8px 24px rgba(31, 36, 48, 0.06);
+  --ax-map-prompt: #6a5ae0;
+  --ax-map-correct: #22c55e;
+  --ax-map-wrong: #ef4444;
+  --ax-map-height: min(52vh, 420px);
+  --ax-tab-height: 64px;
+
+  --ion-font-family: "Nunito", "Segoe UI", "Helvetica Neue", sans-serif;
   --ion-background-color: var(--ax-bg);
   --ion-text-color: var(--ax-ink);
   --ion-toolbar-background: var(--ax-surface);
   --ion-item-background: var(--ax-surface);
-  --ion-color-primary: #2f6f5e;
-  --ion-color-primary-rgb: 47, 111, 94;
+  --ion-tab-bar-background: var(--ax-surface);
+  --ion-tab-bar-color: var(--ax-muted);
+  --ion-tab-bar-color-selected: var(--ax-accent);
+  --ion-color-primary: #6a5ae0;
+  --ion-color-primary-rgb: 106, 90, 224;
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255, 255, 255;
-  --ion-color-primary-shade: #296253;
-  --ion-color-primary-tint: #447d6e;
+  --ion-color-primary-shade: #5c4ec5;
+  --ion-color-primary-tint: #796be3;
 }
 
 body {
   margin: 0;
   background: var(--ax-bg);
   color: var(--ax-ink);
-}
-
-:root {
-  --ax-map-prompt: #2f6f5e;
-  --ax-map-correct: #3d8b6e;
-  --ax-map-wrong: #b85c4a;
+  font-family: var(--ion-font-family);
+  -webkit-tap-highlight-color: transparent;
 }
 
 .rbm-root {
-  --rbm-land: #d8e2dc;
-  --rbm-stroke: #6b7c85;
-  --rbm-selected: #2f6f5e;
-  --rbm-accent: #c45c26;
-  --rbm-heat: #8b4a3a;
+  --rbm-land: #dfe8e4;
+  --rbm-stroke: #8a9a94;
+  --rbm-selected: #6a5ae0;
+  --rbm-accent: #6a5ae0;
+  --rbm-heat: #ef4444;
+}
+
+ion-tab-bar {
+  --background: var(--ax-surface);
+  border-top: 1px solid var(--ax-line);
+  height: calc(var(--ax-tab-height) + env(safe-area-inset-bottom));
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+ion-tab-button {
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+ion-toolbar {
+  --border-width: 0;
+  --min-height: 56px;
+}
+
+ion-content {
+  --background: var(--ax-bg);
+}
+
+.ax-page {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 1rem 1rem calc(1.25rem + var(--ax-tab-height));
+}
+
+.ax-page--flush {
+  padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+}
+
+.ax-card {
+  background: var(--ax-surface);
+  border-radius: var(--ax-radius);
+  box-shadow: var(--ax-shadow);
+  border: 1px solid var(--ax-line);
+}
+
+.ax-btn-primary {
+  --background: var(--ax-accent);
+  --background-activated: #5c4ec5;
+  --border-radius: 14px;
+  --box-shadow: none;
+  font-weight: 800;
+  text-transform: none;
+  letter-spacing: 0;
+  min-height: 48px;
+}
+
+.ax-muted {
+  color: var(--ax-muted);
+}
+
+.ax-progress {
+  height: 8px;
+  border-radius: 999px;
+  background: #e8ecf4;
+  overflow: hidden;
+}
+
+.ax-progress > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #8b7cf0, #6a5ae0);
 }

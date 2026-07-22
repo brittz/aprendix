@@ -5,7 +5,6 @@ import {
   IonContent,
   IonHeader,
   IonPage,
-  IonTitle,
   IonToolbar,
 } from '@ionic/react';
 import { useEffect } from 'react';
@@ -14,6 +13,7 @@ import { getPhaseById } from '@aprendix/content-geography';
 import { SOLO_MODES, type SoloModeId } from '@aprendix/game-core';
 import { t } from '../../../i18n';
 import type { MessageKey } from '../../../i18n/pt-BR';
+import { saveLastPlayed } from '../../../persistence/geoProgress';
 import { BrazilPhaseMap } from '../components/BrazilPhaseMap';
 import { useGeoSession } from '../hooks/useGeoSession';
 import '../geography.css';
@@ -62,6 +62,16 @@ function PlaySessionInner({
   } = useGeoSession(phase, modeId);
 
   useEffect(() => {
+    saveLastPlayed({
+      module: 'geography',
+      phaseId: phase.id,
+      modeId,
+      title: t(phase.titleKey as MessageKey),
+      updatedAt: Date.now(),
+    });
+  }, [phase.id, phase.titleKey, modeId]);
+
+  useEffect(() => {
     if (session.status === 'completed') {
       history.replace(`/geography/${phase.id}/results/${session.id}`, {
         session,
@@ -73,36 +83,58 @@ function PlaySessionInner({
   const current = Math.min(session.cursor + 1, total);
   const mode = SOLO_MODES[modeId];
 
+  const skip = () => {
+    if (modeId === 'name') {
+      onSubmitText();
+      return;
+    }
+    // find/train: treat empty miss by clicking nothing — advance via wrong synthetic
+    // Use continue path: submit unlikely id
+    onRegionClick('__skip__');
+  };
+
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
-            <IonBackButton
-              defaultHref={`/geography/${phase.id}`}
-              text={t('play.exit')}
-            />
+            <IonBackButton defaultHref={`/geography/${phase.id}`} text="" />
           </IonButtons>
-          <IonTitle>{t(mode.nameKey as MessageKey)}</IonTitle>
+          <IonButtons slot="end">
+            <span className="geo-play-chip">
+              {t('play.progress', { current, total })}
+            </span>
+            {mode.scoringEnabled && (
+              <span className="geo-play-chip" style={{ marginLeft: '0.35rem' }}>
+                {session.score} XP
+              </span>
+            )}
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent className="geo-play" fullscreen>
-        <div className="geo-wrap">
-          <div className="geo-play-bar">
-            <p className="geo-prompt">
-              {modeId === 'name'
-                ? t('play.name.prompt')
-                : t('play.find.prompt', { name: currentLabel })}
-            </p>
-            <div className="geo-meta">
-              <span>{t('play.progress', { current, total })}</span>
-              {mode.scoringEnabled && (
-                <>
-                  <span>{t('play.score', { score: session.score })}</span>
-                  <span>{t('play.streak', { streak: session.streak })}</span>
-                </>
-              )}
-            </div>
+        <div className="geo-wrap ax-page--flush">
+          <p className="geo-prompt">
+            {modeId === 'name'
+              ? t('play.name.prompt')
+              : t('play.find.prompt', { name: currentLabel })}
+          </p>
+
+          <div className="geo-map-frame">
+            <BrazilPhaseMap
+              phase={phase}
+              selectedId={
+                modeId === 'name' ? session.currentRegionId : undefined
+              }
+              accentId={
+                session.lastFeedback?.regionId ??
+                (modeId === 'name' ? session.currentRegionId : null)
+              }
+              fillOverrides={fillOverrides}
+              onRegionClick={onRegionClick}
+              readOnly={modeId === 'name' || session.status === 'feedback'}
+              className="geo-map"
+            />
           </div>
 
           {session.lastFeedback && session.status === 'feedback' && (
@@ -137,6 +169,9 @@ function PlaySessionInner({
                 onSubmitText();
               }}
             >
+              <p className="ax-muted" style={{ margin: 0, textAlign: 'center' }}>
+                {t('play.name.hint')}
+              </p>
               <input
                 value={textValue}
                 onChange={(e) => setTextValue(e.target.value)}
@@ -146,26 +181,14 @@ function PlaySessionInner({
                 enterKeyHint="done"
                 aria-label={t('play.name.placeholder')}
               />
-              <IonButton type="submit">{t('play.name.submit')}</IonButton>
+              <IonButton expand="block" type="submit" className="ax-btn-primary">
+                {t('play.name.submit')}
+              </IonButton>
+              <button type="button" className="geo-skip" onClick={skip}>
+                {t('play.skip')}
+              </button>
             </form>
           )}
-
-          <div className="geo-map-frame">
-            <BrazilPhaseMap
-              phase={phase}
-              selectedId={
-                modeId === 'name' ? session.currentRegionId : undefined
-              }
-              accentId={
-                session.lastFeedback?.regionId ??
-                (modeId === 'name' ? session.currentRegionId : null)
-              }
-              fillOverrides={fillOverrides}
-              onRegionClick={onRegionClick}
-              readOnly={modeId === 'name' || session.status === 'feedback'}
-              className="geo-map"
-            />
-          </div>
         </div>
       </IonContent>
     </IonPage>

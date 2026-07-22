@@ -23,7 +23,7 @@ export default function BabiesHubPage() {
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
-            <IonBackButton defaultHref="/home" text={t('geo.back')} />
+            <IonBackButton defaultHref="/tabs/home" text={t('geo.back')} />
           </IonButtons>
           <IonTitle>{t('baby.module')}</IonTitle>
         </IonToolbar>
