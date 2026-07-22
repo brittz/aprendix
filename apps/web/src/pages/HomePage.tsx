@@ -8,6 +8,7 @@ import {
   IonToolbar,
 } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
+import { t } from '../i18n';
 import './HomePage.css';
 
 export default function HomePage() {
@@ -17,27 +18,19 @@ export default function HomePage() {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Aprendix</IonTitle>
+          <IonTitle>{t('app.name')}</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className="home-content" fullscreen>
         <section className="home-hero">
-          <p className="home-brand">Aprendix</p>
-          <h1>Desenvolvimento cognitivo, com calma.</h1>
-          <p className="home-lede">
-            Plataforma modular de aprendizado. O primeiro módulo é o Motor de
-            Geografia — começando pelos estados do Brasil.
-          </p>
-          <IonButton
-            expand="block"
-            onClick={() => history.push('/geography/map')}
-          >
-            Abrir mapa do Brasil
+          <p className="home-brand">{t('app.name')}</p>
+          <h1>{t('app.tagline')}</h1>
+          <p className="home-lede">{t('home.lede')}</p>
+          <IonButton expand="block" onClick={() => history.push('/geography')}>
+            {t('home.cta.geography')}
           </IonButton>
           <IonText color="medium">
-            <p className="home-note">
-              Fase 0: scaffold Ionic + Capacitor e integração do mapa.
-            </p>
+            <p className="home-note">{t('home.note')}</p>
           </IonText>
         </section>
       </IonContent>

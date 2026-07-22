@@ -12,11 +12,23 @@ O Brasil é o primeiro **adapter/provider**, usando `@federacao/react-brazil-map
 
 | Conceito | Descrição |
 |---|---|
-| `MapDefinition` | id, nome, dificuldade, categorias, metadados |
-| `Region` | id, nome(s) i18n, path/geometria, centróide, parentId opcional |
-| `MapProvider` | carrega geometria + regiões para um `MapDefinition` |
-| `MapSession` | estado da rodada: prompt atual, seleção, placar |
-| `GameMode` | regras de input, feedback e scoring sobre a session |
+| `Region` | Entidade lógica (UF, país, bioma, província fictícia…) |
+| `PhaseDefinition` | **Fase jogável**: geometria + tema (`quizAttribute`) + modos |
+| `MapProviderId` | Quem carrega/renderiza a geometria (`brazil-svg`, futuro `world-geojson`…) |
+| `SessionSnapshot` | Estado da partida solo (`@aprendix/game-core`) |
+
+### Fases = configuração, não código novo
+
+Exemplos de fases futuras no mesmo motor:
+
+- Estados brasileiros (nome) — MVP free
+- Capitais dos estados (`quizAttribute: 'capital'`)
+- Biomas
+- Geração de energia por UF
+- Países do mundo
+- Mapas fictícios
+
+Cada uma é um `PhaseDefinition` em `packages/content-geography` (ou content pack dedicado).
 
 ---
 
@@ -25,49 +37,15 @@ O Brasil é o primeiro **adapter/provider**, usando `@federacao/react-brazil-map
 ```text
 @federacao/react-brazil-map
         ↓
-BrazilMapProvider (Aprendix)
+BrazilPhaseMap (apps/web adapter)
         ↓
-MapEngine (genérica)
-        ↓
-Game modes (Encontre, Nomeie, Treino…)
+PhaseDefinition + game-core modes
 ```
 
-Responsabilidades do adapter:
-
-- Expor `Region[]` a partir de `brazil-states.json`
-- Renderizar via `<BrazilMap />` com props de seleção/accent/fillOverrides
-- Traduzir eventos `onStateClick` → `MapEngine.selectRegion(id)`
-
-A engine **não** importa tipos `Brazil*` diretamente nos modos — só `Region` / `MapView`.
+A engine **não** importa tipos `Brazil*` nos modos — só `Region` / `PhaseDefinition`.
 
 ---
 
-## API mental da engine
+## Multijogador
 
-```ts
-interface Region {
-  id: string;
-  names: Record<string, string>; // i18n
-  meta?: Record<string, unknown>;
-}
-
-interface MapDefinition {
-  id: string;
-  titleKey: string;
-  difficulty: 1 | 2 | 3 | 4 | 5;
-  categories: string[];
-  providerId: string;
-  regionIds: string[];
-}
-
-// Modo "encontre"
-ask(regionId) → wait click → compare → feedback → next
-```
-
----
-
-## Extensão futura
-
-Novos países/continentes = novo provider + dataset, mesmos modos.
-
-Drill-down (município/bairro): a lib Brasil já prevê `SubFeature` / níveis de zoom — a engine deve modelar hierarquia `parentId` desde cedo.
+Mesmas fases; contratos em `game-core` / `docs/gdd/16-multiplayer.md`. Online only; modo Claim planejado.

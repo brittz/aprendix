@@ -8,33 +8,19 @@ Plataforma de **desenvolvimento cognitivo** — módulos educativos que comparti
 
 ## Estado atual
 
-**Fase 0 — Fundação** concluída: docs, Git, scaffold Ionic React + Capacitor, integração do mapa do Brasil e CI.
+**Fase 1 — MVP Geografia** concluída: engine genérica, 3 modos, progresso local, evolução, i18n PT-BR, 27 estados free.
 
-Próximo: **Fase 1 — MVP Geografia** (engine genérica, modos Treino / Encontre / Nomeie).
+Próximo: **Fase 2** (a11y, áudio, Capacitor nativo, testes, stats por região).
 
 ---
 
 ## Desenvolvimento
 
 ```bash
-# na raiz
-npm run dev
-
-# ou
-cd apps/web
-npm install
 npm run dev
 ```
 
-App: http://localhost:5173  
-Mapa smoke: `/geography/map`
-
-```bash
-npm run lint
-npm run build
-```
-
-Capacitor está inicializado (`com.aprendix.app`). Plataformas nativas entram na Fase 2.
+Fluxo: Home → Geografia → Estados do Brasil → Treino / Encontre / Nomeie.
 
 ---
 
@@ -65,10 +51,14 @@ Capacitor está inicializado (`com.aprendix.app`). Plataformas nativas entram na
 ```text
 aprendix/
 ├── apps/web/                      # Ionic React + Capacitor
-├── packages/react-brazil-map/     # Mapa SVG Brasil (vendored)
+├── packages/
+│   ├── react-brazil-map/          # Provider SVG Brasil
+│   ├── map-engine/                # Contratos de mapa/fase
+│   ├── game-core/                 # Modos solo + progresso + MP types
+│   └── content-geography/         # Fases (BR states, …)
 ├── docs/
 │   ├── vision/
-│   ├── gdd/
+│   ├── gdd/                       # incl. 16-multiplayer.md
 │   └── tech/
 └── .github/workflows/ci.yml
 ```

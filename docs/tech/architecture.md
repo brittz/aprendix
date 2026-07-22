@@ -24,22 +24,31 @@
 
 ---
 
-## Monorepo (alvo)
+## Monorepo (atual)
 
 ```text
 aprendix/
 ├── apps/
-│   └── web/                 # Ionic React + Capacitor (Fase 0 ✓)
+│   └── web/                      # Ionic React + Capacitor
 ├── packages/
-│   ├── react-brazil-map/    # Mapa SVG Brasil (vendored)
-│   ├── map-engine/          # Engine genérica (Fase 1)
-│   ├── game-core/           # Sessão, scoring, progresso (Fase 1)
-│   └── content-br-states/   # Dataset + provider Brasil (Fase 1)
+│   ├── react-brazil-map/         # SVG Brasil (provider)
+│   ├── map-engine/               # Region, PhaseDefinition, helpers
+│   ├── game-core/                # Solo modes, score, progress, MP contracts
+│   └── content-geography/        # Fases (BR states free, …)
 ├── docs/
 └── .github/workflows/ci.yml
 ```
 
-`apps/web` concentra a UI; engines serão extraídas para `packages/` na Fase 1.
+### Fases (content packs)
+
+Uma **fase** = mapa (provider + geometria) + tema de aprendizado (`quizAttribute`) + modos liberados.
+
+Exemplos futuros na mesma engine: biomas, capitais, geração de energia, países, mapas fictícios — só novos dados em `content-*`.
+
+### Multijogador
+
+Contratos em `game-core` (`MultiplayerRoom`, modo `claim`). Implementação online na Fase 6 — ver `docs/gdd/16-multiplayer.md`.
+
 
 ---
 

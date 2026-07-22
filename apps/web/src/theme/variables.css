@@ -27,6 +27,12 @@ body {
   color: var(--ax-ink);
 }
 
+:root {
+  --ax-map-prompt: #2f6f5e;
+  --ax-map-correct: #3d8b6e;
+  --ax-map-wrong: #b85c4a;
+}
+
 .rbm-root {
   --rbm-land: #d8e2dc;
   --rbm-stroke: #6b7c85;
