@@ -29,6 +29,7 @@ export function BrazilMap({
   onSubFeatureDoubleClick,
   className,
   readOnly = false,
+  showTooltip = true,
 }: BrazilMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [transform, setTransform] = useState({ x: 0, y: 0, scale: 1 });
@@ -156,7 +157,7 @@ export function BrazilMap({
                   onStateDoubleClick?.(shape.id);
                 }}
                 onMouseEnter={(e) => {
-                  if (isFocus) return;
+                  if (!showTooltip || isFocus) return;
                   const rect = containerRef.current?.getBoundingClientRect();
                   if (!rect) return;
                   setTooltip({
@@ -197,6 +198,7 @@ export function BrazilMap({
                   onSubFeatureDoubleClick?.(sub.id);
                 }}
                 onMouseEnter={(e) => {
+                  if (!showTooltip) return;
                   const rect = containerRef.current?.getBoundingClientRect();
                   if (!rect) return;
                   setTooltip({

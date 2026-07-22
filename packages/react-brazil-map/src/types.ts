@@ -65,6 +65,8 @@ export interface BrazilMapProps {
   onSubFeatureDoubleClick?: (id: string) => void;
   className?: string;
   readOnly?: boolean;
+  /** Hover tooltip with region name/stat. Default true. Disable for quiz/game modes. */
+  showTooltip?: boolean;
 }
 
 export interface MapNavigationState {

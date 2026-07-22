@@ -71,6 +71,7 @@ export function BrazilPhaseMap({
       fillOverrides={fillOverrides}
       onStateClick={onRegionClick}
       readOnly={readOnly}
+      showTooltip={false}
       className={className}
     />
   );

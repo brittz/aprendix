@@ -46,6 +46,7 @@ declare module '@federacao/react-brazil-map' {
     onStateDoubleClick?: (stateId: string) => void;
     className?: string;
     readOnly?: boolean;
+    showTooltip?: boolean;
   }
 
   export const BrazilMap: ComponentType<BrazilMapProps>;
