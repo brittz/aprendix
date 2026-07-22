@@ -1,0 +1,118 @@
+.rbm-root {
+  --rbm-land: #1a2332;
+  --rbm-stroke: #2a3544;
+  --rbm-selected: #5b8def;
+  --rbm-accent: #5b8def;
+  --rbm-heat: #c0392b;
+  --rbm-tooltip-bg: #0c1219;
+  --rbm-tooltip-border: #1e2a38;
+  --rbm-text: #d8dee6;
+  --rbm-text-muted: #6b7a8f;
+  --rbm-motion-fast: 150ms;
+  --rbm-motion-normal: 200ms;
+  --rbm-motion-zoom: 350ms;
+  --rbm-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  position: relative;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  touch-action: none;
+}
+
+.rbm-root--dragging {
+  cursor: grabbing;
+}
+
+.rbm-state {
+  stroke: var(--rbm-stroke);
+  stroke-width: 0.6;
+  transition:
+    fill var(--rbm-motion-normal) var(--rbm-ease-out),
+    stroke var(--rbm-motion-fast) var(--rbm-ease-out);
+  cursor: pointer;
+}
+
+.rbm-state:hover {
+  stroke: var(--rbm-accent);
+  stroke-width: 1.2;
+}
+
+.rbm-state--selected {
+  stroke: var(--rbm-selected);
+  stroke-width: 1.5;
+}
+
+.rbm-state--accent {
+  stroke: var(--rbm-accent);
+}
+
+.rbm-state--crisis {
+  animation: rbm-pulse 2s ease-in-out infinite;
+}
+
+@keyframes rbm-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+.rbm-marker {
+  fill: var(--rbm-heat);
+  animation: rbm-marker-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes rbm-marker-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+}
+
+.rbm-tooltip {
+  position: absolute;
+  z-index: 10;
+  pointer-events: none;
+  padding: 0.35rem 0.5rem;
+  background: color-mix(in srgb, var(--rbm-tooltip-bg) 95%, transparent);
+  border: 1px solid var(--rbm-tooltip-border);
+  color: var(--rbm-text);
+  font-size: 0.65rem;
+  max-width: 12rem;
+  animation: rbm-fade-in var(--rbm-motion-fast) var(--rbm-ease-out);
+}
+
+@keyframes rbm-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.rbm-tooltip__name {
+  font-weight: 600;
+  display: block;
+}
+
+.rbm-tooltip__stat {
+  color: var(--rbm-text-muted);
+  font-family: ui-monospace, monospace;
+  font-size: 0.6rem;
+}
+
+.rbm-sub {
+  stroke-width: 0.4;
+}
+
+.rbm-transform-group {
+  transition: transform var(--rbm-motion-zoom) var(--rbm-ease-out);
+}

@@ -29,17 +29,17 @@
 ```text
 aprendix/
 ├── apps/
-│   └── web/                 # Ionic React + Capacitor
+│   └── web/                 # Ionic React + Capacitor (Fase 0 ✓)
 ├── packages/
-│   ├── map-engine/          # Engine genérica de mapas
-│   ├── game-core/           # Sessão, scoring, progresso
-│   ├── content-br-states/   # Dataset + provider Brasil
-│   └── ui/                  # Componentes compartilhados (opcional)
+│   ├── react-brazil-map/    # Mapa SVG Brasil (vendored)
+│   ├── map-engine/          # Engine genérica (Fase 1)
+│   ├── game-core/           # Sessão, scoring, progresso (Fase 1)
+│   └── content-br-states/   # Dataset + provider Brasil (Fase 1)
 ├── docs/
-└── README.md
+└── .github/workflows/ci.yml
 ```
 
-No bootstrap inicial, `apps/web` pode concentrar código até extrair packages.
+`apps/web` concentra a UI; engines serão extraídas para `packages/` na Fase 1.
 
 ---
 
@@ -67,10 +67,10 @@ Novo mapa ou modo **não** reescreve o core: adiciona content pack + config (+ p
 
 ## Relação com o plugin
 
-Dependência local:
+Dependência no monorepo:
 
 ```json
-"@federacao/react-brazil-map": "file:../../../plugins/react-brazil-map"
+"@federacao/react-brazil-map": "file:../../packages/react-brazil-map"
 ```
 
-(Ajuste o caminho relativo conforme a pasta final do app.)
+Origem do plugin: `E:/Desenvolvimento/Projetos/plugins/react-brazil-map` (vendorizado em `packages/` para CI).

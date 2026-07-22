@@ -4,17 +4,17 @@ Visão em fases. Datas são ordenação relativa, não compromisso de calendári
 
 ---
 
-## Fase 0 — Fundação (atual)
+## Fase 0 — Fundação
 
 - [x] Documento de visão
 - [x] GDD inicial
 - [x] Docs técnicas (arquitetura / stack)
 - [x] Repositório Git
-- [ ] Scaffold Ionic React + Capacitor
-- [ ] Integração `@federacao/react-brazil-map`
-- [ ] CI básico / lint
+- [x] Scaffold Ionic React + Capacitor (`apps/web`)
+- [x] Integração `@federacao/react-brazil-map` (`packages/react-brazil-map` + smoke `/geography/map`)
+- [x] CI básico / lint (GitHub Actions)
 
-## Fase 1 — MVP Geografia (web)
+## Fase 1 — MVP Geografia (web) ← atual
 
 - [ ] Engine de mapas genérica (contratos + adapter Brasil)
 - [ ] Modos: Treino, Encontre a Região, Nomeie a Região

@@ -1,0 +1,7 @@
+{
+  "name": "aprendix",
+  "type": "ionic:react-vite",
+  "integrations": {
+    "capacitor": {}
+  }
+}

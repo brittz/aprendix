@@ -1,6 +1,7 @@
 # Aprendix — Documento de Visão
 
 **Versão:** 0.1.0  
+**Fase:** 0 concluída → próxima: Fase 1 (MVP Geografia)  
 **Posicionamento:** Plataforma de desenvolvimento cognitivo (não “apenas jogos educativos”).
 
 ---

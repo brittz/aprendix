@@ -1,0 +1,15 @@
+{
+  "name": "aprendix",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Plataforma de desenvolvimento cognitivo",
+  "scripts": {
+    "dev": "npm run dev --prefix apps/web",
+    "build": "npm run build --prefix apps/web",
+    "lint": "npm run lint --prefix apps/web",
+    "preview": "npm run preview --prefix apps/web"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

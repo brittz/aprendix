@@ -2,21 +2,19 @@
 
 ## App
 
-- **Ionic React** + **Vite** + **TypeScript**
-- **Capacitor** para Android/iOS
+- **Ionic React** + **Vite** + **TypeScript** em `apps/web`
+- **Capacitor** inicializado (`com.aprendix.app`); plataformas nativas na Fase 2
 - React 18+ (peer do `@federacao/react-brazil-map`)
 
-## Estrutura sugerida (`apps/web`)
+## Estrutura (`apps/web`)
 
 ```text
 src/
-  app/                 # rotas, providers
-  pages/               # Home, Geography, Session, Results, Stats
-  features/
-    geography/         # UI do módulo
-    map/               # bridge para map-engine + BrazilMap
-  shared/              # UI kit, i18n, theme
-  persistence/         # repos locais
+  app via App.tsx       # rotas Ionic
+  pages/                # Home, GeographyMap (smoke)
+  theme/variables.css   # tokens --ax-* e --rbm-*
+  features/             # (Fase 1) geography, map bridge
+public/data/            # brazil-states.json
 ```
 
 ## Integração do mapa

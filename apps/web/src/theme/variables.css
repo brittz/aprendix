@@ -1,0 +1,36 @@
+/* Aprendix theme tokens — calm cognitive development palette */
+:root {
+  --ax-bg: #f3f0ea;
+  --ax-surface: #fffcf7;
+  --ax-ink: #1c2430;
+  --ax-muted: #5c6675;
+  --ax-accent: #2f6f5e;
+  --ax-accent-contrast: #ffffff;
+  --ax-map-height: min(70vh, 560px);
+
+  --ion-font-family: "Segoe UI", "Helvetica Neue", sans-serif;
+  --ion-background-color: var(--ax-bg);
+  --ion-text-color: var(--ax-ink);
+  --ion-toolbar-background: var(--ax-surface);
+  --ion-item-background: var(--ax-surface);
+  --ion-color-primary: #2f6f5e;
+  --ion-color-primary-rgb: 47, 111, 94;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #296253;
+  --ion-color-primary-tint: #447d6e;
+}
+
+body {
+  margin: 0;
+  background: var(--ax-bg);
+  color: var(--ax-ink);
+}
+
+.rbm-root {
+  --rbm-land: #d8e2dc;
+  --rbm-stroke: #6b7c85;
+  --rbm-selected: #2f6f5e;
+  --rbm-accent: #c45c26;
+  --rbm-heat: #8b4a3a;
+}
