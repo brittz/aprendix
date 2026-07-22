@@ -1,6 +1,6 @@
 # 17 — Jogos por faixa etária
 
-**Status:** roadmap ativo (Fase 2) — implementação começa por **bebês (0–1)**.  
+**Status:** Fase 2.1 (bebês 0–1) implementada no app; próximas faixas no roadmap.  
 **Posicionamento:** desenvolvimento cognitivo por idade, não “mais um app de jogos”.
 
 ---

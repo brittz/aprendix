@@ -8,9 +8,9 @@ Plataforma de **desenvolvimento cognitivo** — módulos educativos que comparti
 
 ## Estado atual
 
-**Fase 1 — MVP Geografia** concluída.
+**Fase 2.1 — Bebês (0–1)** entregue: módulo “Primeiros estímulos” com 7 atividades free (sem pontuação/cronômetro/competição).
 
-**Próximo: Fase 2 — jogos por faixa etária**, priorizando **bebês (0–1)** (sem pontuação, cronômetro ou competição). Ver [`docs/gdd/15-roadmap.md`](docs/gdd/15-roadmap.md) e [`docs/gdd/17-age-bands.md`](docs/gdd/17-age-bands.md).
+**Próximo no roadmap:** faixas 1–2+ ([`docs/gdd/15-roadmap.md`](docs/gdd/15-roadmap.md)) ou polimento/audio nativo na Fase 3.
 
 ---
 
@@ -55,7 +55,8 @@ aprendix/
 │   ├── react-brazil-map/          # Provider SVG Brasil
 │   ├── map-engine/                # Contratos de mapa/fase
 │   ├── game-core/                 # Modos solo + progresso + MP types
-│   └── content-geography/         # Fases (BR states, …)
+│   ├── content-geography/         # Fases (BR states, …)
+│   └── early-years/               # Faixas etárias + atividades bebê
 ├── docs/
 │   ├── vision/
 │   ├── gdd/                       # incl. 16-multiplayer.md

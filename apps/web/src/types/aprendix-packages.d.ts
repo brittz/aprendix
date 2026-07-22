@@ -187,3 +187,56 @@ declare module '@aprendix/content-geography' {
   export function getPhaseById(id: string): PhaseDefinition | undefined;
   export function listFreePhases(): PhaseDefinition[];
 }
+
+declare module '@aprendix/early-years' {
+  export type AgeBandId =
+    | '0-1'
+    | '1-2'
+    | '2-4'
+    | '4-6'
+    | '6-10'
+    | '10-plus';
+
+  export type LicenseTier = 'free' | 'module' | 'subscription' | 'school';
+
+  export interface AgeBandRules {
+    scoring: boolean;
+    timer: boolean;
+    competition: boolean;
+    suggestedTouchBudget?: number;
+  }
+
+  export interface AgeBandDefinition {
+    id: AgeBandId;
+    titleKey: string;
+    descriptionKey: string;
+    rules: AgeBandRules;
+  }
+
+  export type BabyActivityKind =
+    | 'animals'
+    | 'sounds'
+    | 'objects'
+    | 'colors'
+    | 'cause-effect'
+    | 'music'
+    | 'rhythm';
+
+  export interface EarlyActivity {
+    id: string;
+    ageBand: AgeBandId;
+    kind: BabyActivityKind | string;
+    titleKey: string;
+    descriptionKey: string;
+    licenseTier: LicenseTier;
+    caregiverHintKey?: string;
+  }
+
+  export const AGE_BANDS: AgeBandDefinition[];
+  export const BABY_ACTIVITIES: EarlyActivity[];
+  export function getAgeBand(id: AgeBandId): AgeBandDefinition | undefined;
+  export function assertBabySafe(rules: AgeBandRules): void;
+  export function listBabyActivities(): EarlyActivity[];
+  export function getBabyActivity(id: string): EarlyActivity | undefined;
+  export function listFreeBabyActivities(): EarlyActivity[];
+}

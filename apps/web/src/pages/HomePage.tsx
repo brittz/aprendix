@@ -26,7 +26,14 @@ export default function HomePage() {
           <p className="home-brand">{t('app.name')}</p>
           <h1>{t('app.tagline')}</h1>
           <p className="home-lede">{t('home.lede')}</p>
-          <IonButton expand="block" onClick={() => history.push('/geography')}>
+          <IonButton expand="block" onClick={() => history.push('/babies')}>
+            {t('home.cta.babies')}
+          </IonButton>
+          <IonButton
+            expand="block"
+            fill="outline"
+            onClick={() => history.push('/geography')}
+          >
             {t('home.cta.geography')}
           </IonButton>
           <IonText color="medium">

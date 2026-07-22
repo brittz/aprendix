@@ -7,6 +7,8 @@ import GeographyHubPage from './features/geography/pages/GeographyHubPage';
 import PhaseModesPage from './features/geography/pages/PhaseModesPage';
 import PlaySessionPage from './features/geography/pages/PlaySessionPage';
 import ResultsPage from './features/geography/pages/ResultsPage';
+import BabiesHubPage from './features/babies/pages/BabiesHubPage';
+import BabyPlayPage from './features/babies/pages/BabyPlayPage';
 
 import '@ionic/react/css/core.css';
 import '@ionic/react/css/normalize.css';
@@ -29,6 +31,8 @@ export default function App() {
       <IonReactRouter>
         <IonRouterOutlet>
           <Route exact path="/home" component={HomePage} />
+          <Route exact path="/babies" component={BabiesHubPage} />
+          <Route exact path="/babies/play/:activityId" component={BabyPlayPage} />
           <Route exact path="/geography" component={GeographyHubPage} />
           <Route exact path="/geography/:phaseId" component={PhaseModesPage} />
           <Route

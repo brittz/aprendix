@@ -15,6 +15,7 @@ export default defineConfig({
       '@aprendix/map-engine': `${packagesRoot}/map-engine/src/index.ts`,
       '@aprendix/game-core': `${packagesRoot}/game-core/src/index.ts`,
       '@aprendix/content-geography': `${packagesRoot}/content-geography/src/index.ts`,
+      '@aprendix/early-years': `${packagesRoot}/early-years/src/index.ts`,
     },
     dedupe: ['react', 'react-dom'],
   },

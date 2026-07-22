@@ -1,7 +1,7 @@
 # Aprendix — Documento de Visão
 
 **Versão:** 0.1.0  
-**Fase:** 2 (faixas etárias — prioridade bebês 0–1) ← atual  
+**Fase:** 2.1 bebês concluída → seguir 2.2+ ou Fase 3  
 **Posicionamento:** Plataforma de desenvolvimento cognitivo (não “apenas jogos educativos”).
 
 ---

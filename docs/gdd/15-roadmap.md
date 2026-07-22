@@ -25,7 +25,7 @@ Visão em fases. Datas são ordenação relativa, não compromisso de calendári
 - [x] Conteúdo free: 27 estados
 - [x] Contratos multijogador (sem implementação) + GDD `16-multiplayer.md`
 
-## Fase 2 — Jogos por faixa etária ← atual
+## Fase 2 — Jogos por faixa etária ← atual (2.1 feito; seguir 2.2+)
 
 Catálogo cognitivo por idade. Detalhes: [`17-age-bands.md`](17-age-bands.md).  
 **Prioridade de implementação: bebês (0–1 ano).**
@@ -34,16 +34,16 @@ Catálogo cognitivo por idade. Detalhes: [`17-age-bands.md`](17-age-bands.md).
 
 Objetivo: estimulação visual, auditiva e descoberta.
 
-- [ ] Shell de módulo “Primeiros estímulos” (sessões extremamente curtas)
-- [ ] Regras de faixa: **sem pontuação, sem cronômetro, sem competição**
-- [ ] Atividade: Animais (toque → som + imagem grande)
-- [ ] Atividade: Sons (causa e efeito auditivo)
-- [ ] Atividade: Objetos do cotidiano
-- [ ] Atividade: Cores
-- [ ] Atividade: Causa e efeito (toque → reação suave)
-- [ ] Atividade: Música e ritmo (loops curtos, mute fácil)
-- [ ] Perfil / preset “bebê” na navegação (alvos grandes, zero texto obrigatório)
-- [ ] Amostra free de 1–2 atividades desta faixa
+- [x] Shell de módulo “Primeiros estímulos” (sessões extremamente curtas)
+- [x] Regras de faixa: **sem pontuação, sem cronômetro, sem competição**
+- [x] Atividade: Animais (toque → som + forma grande)
+- [x] Atividade: Sons (causa e efeito auditivo)
+- [x] Atividade: Objetos
+- [x] Atividade: Cores
+- [x] Atividade: Causa e efeito (toque → reação suave)
+- [x] Atividade: Música e ritmo (loops/frases curtas, mute fácil)
+- [x] Entrada “bebê” na home (alvos grandes, texto só para o responsável)
+- [x] Amostra free das atividades desta faixa (`packages/early-years`)
 
 ### 2.2 — Crianças (1–2 anos)
 
