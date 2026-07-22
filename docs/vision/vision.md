@@ -1,7 +1,7 @@
 # Aprendix — Documento de Visão
 
 **Versão:** 0.1.0  
-**Fase:** 1 (MVP Geografia) concluída → próxima: Fase 2  
+**Fase:** 2 (faixas etárias — prioridade bebês 0–1) ← atual  
 **Posicionamento:** Plataforma de desenvolvimento cognitivo (não “apenas jogos educativos”).
 
 ---

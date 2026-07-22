@@ -30,15 +30,19 @@
 
 ---
 
-## Adequação por faixa (Geografia)
+## Adequação por faixa
 
-| Faixa | Geografia no MVP? | Observação |
+| Faixa | Foco | Geografia / mapas |
 |---|---|---|
-| 0–2 | Não | Outros módulos (cores, sons, animais) |
-| 2–4 | Limitado | Mapas muito simplificados / regiões grandes (futuro) |
-| 4–6 | Introdução | Regiões do Brasil, nomes com apoio visual |
-| 6–10 | Sim | Estados, depois capitais |
-| 10+ / adultos | Sim | Todos os modos e expansões |
+| 0–1 | Estimulação visual/auditiva, descoberta | Não |
+| 1–2 | Formas, cores, animais, grande/pequeno… | Não |
+| 2–4 | Memória, associação, contagem, puzzles | Limitado / futuro |
+| 4–6 | Letras, números, lógica | Introdução com apoio |
+| 6–10 | Geo, história, ciências, idiomas, matemática | Sim |
+| 10+ / adultos | Desafios completos | Sim + expansões |
+
+Roadmap de implementação: [`15-roadmap.md`](15-roadmap.md) (Fase 2) e [`17-age-bands.md`](17-age-bands.md).  
+**Próxima prioridade de produto após o MVP de Geografia: bebês (0–1).**
 
 ---
 

@@ -8,9 +8,9 @@ Plataforma de **desenvolvimento cognitivo** — módulos educativos que comparti
 
 ## Estado atual
 
-**Fase 1 — MVP Geografia** concluída: engine genérica, 3 modos, progresso local, evolução, i18n PT-BR, 27 estados free.
+**Fase 1 — MVP Geografia** concluída.
 
-Próximo: **Fase 2** (a11y, áudio, Capacitor nativo, testes, stats por região).
+**Próximo: Fase 2 — jogos por faixa etária**, priorizando **bebês (0–1)** (sem pontuação, cronômetro ou competição). Ver [`docs/gdd/15-roadmap.md`](docs/gdd/15-roadmap.md) e [`docs/gdd/17-age-bands.md`](docs/gdd/17-age-bands.md).
 
 ---
 
