@@ -1,4 +1,4 @@
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route, useLocation } from 'react-router-dom';
 import {
   IonApp,
   IonIcon,
@@ -45,69 +45,79 @@ import './theme/variables.css';
 
 setupIonicReact({ mode: 'ios' });
 
+function AppTabs() {
+  const location = useLocation();
+  const hideTabBar =
+    /\/(play|results|review)\//.test(location.pathname) ||
+    location.pathname.includes('/babies/play');
+
+  return (
+    <IonTabs>
+      <IonRouterOutlet>
+        <Route exact path="/tabs/home" component={HomePage} />
+        <Route exact path="/tabs/games" component={GamesPage} />
+        <Route exact path="/tabs/challenges" component={ChallengesPage} />
+        <Route exact path="/tabs/profile" component={ProfilePage} />
+
+        <Route exact path="/geography" component={GeographyHubPage} />
+        <Route exact path="/geography/:phaseId" component={PhaseModesPage} />
+        <Route
+          exact
+          path="/geography/:phaseId/play/:modeId"
+          component={PlaySessionPage}
+        />
+        <Route
+          exact
+          path="/geography/:phaseId/results/:sessionId"
+          component={ResultsPage}
+        />
+        <Route
+          exact
+          path="/geography/:phaseId/review/:sessionId"
+          component={AnswersReviewPage}
+        />
+
+        <Route exact path="/babies" component={BabiesHubPage} />
+        <Route exact path="/babies/play/:activityId" component={BabyPlayPage} />
+
+        <Route exact path="/home">
+          <Redirect to="/tabs/home" />
+        </Route>
+        <Route exact path="/">
+          <Redirect to="/tabs/home" />
+        </Route>
+      </IonRouterOutlet>
+
+      <IonTabBar
+        slot="bottom"
+        style={{ display: hideTabBar ? 'none' : undefined }}
+      >
+        <IonTabButton tab="home" href="/tabs/home">
+          <IonIcon icon={homeOutline} />
+          <IonLabel>{t('nav.home')}</IonLabel>
+        </IonTabButton>
+        <IonTabButton tab="games" href="/tabs/games">
+          <IonIcon icon={gameControllerOutline} />
+          <IonLabel>{t('nav.games')}</IonLabel>
+        </IonTabButton>
+        <IonTabButton tab="challenges" href="/tabs/challenges">
+          <IonIcon icon={trophyOutline} />
+          <IonLabel>{t('nav.challenges')}</IonLabel>
+        </IonTabButton>
+        <IonTabButton tab="profile" href="/tabs/profile">
+          <IonIcon icon={personOutline} />
+          <IonLabel>{t('nav.profile')}</IonLabel>
+        </IonTabButton>
+      </IonTabBar>
+    </IonTabs>
+  );
+}
+
 export default function App() {
   return (
     <IonApp>
       <IonReactRouter>
-        <IonTabs>
-          <IonRouterOutlet>
-            <Route exact path="/tabs/home" component={HomePage} />
-            <Route exact path="/tabs/games" component={GamesPage} />
-            <Route exact path="/tabs/challenges" component={ChallengesPage} />
-            <Route exact path="/tabs/profile" component={ProfilePage} />
-
-            <Route exact path="/geography" component={GeographyHubPage} />
-            <Route exact path="/geography/:phaseId" component={PhaseModesPage} />
-            <Route
-              exact
-              path="/geography/:phaseId/play/:modeId"
-              component={PlaySessionPage}
-            />
-            <Route
-              exact
-              path="/geography/:phaseId/results/:sessionId"
-              component={ResultsPage}
-            />
-            <Route
-              exact
-              path="/geography/:phaseId/review/:sessionId"
-              component={AnswersReviewPage}
-            />
-
-            <Route exact path="/babies" component={BabiesHubPage} />
-            <Route
-              exact
-              path="/babies/play/:activityId"
-              component={BabyPlayPage}
-            />
-
-            <Route exact path="/home">
-              <Redirect to="/tabs/home" />
-            </Route>
-            <Route exact path="/">
-              <Redirect to="/tabs/home" />
-            </Route>
-          </IonRouterOutlet>
-
-          <IonTabBar slot="bottom">
-            <IonTabButton tab="home" href="/tabs/home">
-              <IonIcon icon={homeOutline} />
-              <IonLabel>{t('nav.home')}</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="games" href="/tabs/games">
-              <IonIcon icon={gameControllerOutline} />
-              <IonLabel>{t('nav.games')}</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="challenges" href="/tabs/challenges">
-              <IonIcon icon={trophyOutline} />
-              <IonLabel>{t('nav.challenges')}</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="profile" href="/tabs/profile">
-              <IonIcon icon={personOutline} />
-              <IonLabel>{t('nav.profile')}</IonLabel>
-            </IonTabButton>
-          </IonTabBar>
-        </IonTabs>
+        <AppTabs />
       </IonReactRouter>
     </IonApp>
   );
