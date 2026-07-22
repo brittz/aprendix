@@ -114,81 +114,85 @@ function PlaySessionInner({
       </IonHeader>
       <IonContent className="geo-play" fullscreen>
         <div className="geo-wrap ax-page--flush">
-          <p className="geo-prompt">
-            {modeId === 'name'
-              ? t('play.name.prompt')
-              : t('play.find.prompt', { name: currentLabel })}
-          </p>
+          <div className="geo-play-layout">
+            <div className="geo-map-frame">
+              <BrazilPhaseMap
+                phase={phase}
+                selectedId={
+                  modeId === 'name' ? session.currentRegionId : undefined
+                }
+                accentId={
+                  session.lastFeedback?.regionId ??
+                  (modeId === 'name' ? session.currentRegionId : null)
+                }
+                fillOverrides={fillOverrides}
+                onRegionClick={onRegionClick}
+                readOnly={modeId === 'name' || session.status === 'feedback'}
+                className="geo-map"
+              />
+            </div>
 
-          <div className="geo-map-frame">
-            <BrazilPhaseMap
-              phase={phase}
-              selectedId={
-                modeId === 'name' ? session.currentRegionId : undefined
-              }
-              accentId={
-                session.lastFeedback?.regionId ??
-                (modeId === 'name' ? session.currentRegionId : null)
-              }
-              fillOverrides={fillOverrides}
-              onRegionClick={onRegionClick}
-              readOnly={modeId === 'name' || session.status === 'feedback'}
-              className="geo-map"
-            />
-          </div>
+            <div className="geo-play-side">
+              <p className="geo-prompt">
+                {modeId === 'name'
+                  ? t('play.name.prompt')
+                  : t('play.find.prompt', { name: currentLabel })}
+              </p>
 
-          {session.lastFeedback && session.status === 'feedback' && (
-            <div
-              className={
-                session.lastFeedback.correct
-                  ? 'geo-feedback geo-feedback--ok'
-                  : 'geo-feedback geo-feedback--bad'
-              }
-              role="status"
-            >
-              {session.lastFeedback.correct
-                ? t('play.feedback.correct')
-                : t('play.feedback.wrong', {
-                    name: session.lastFeedback.expectedLabel,
-                  })}
-              {modeId === 'name' && (
-                <div style={{ marginTop: '0.5rem' }}>
-                  <IonButton size="small" onClick={continueAfterFeedback}>
-                    {t('play.feedback.continue')}
-                  </IonButton>
+              {session.lastFeedback && session.status === 'feedback' && (
+                <div
+                  className={
+                    session.lastFeedback.correct
+                      ? 'geo-feedback geo-feedback--ok'
+                      : 'geo-feedback geo-feedback--bad'
+                  }
+                  role="status"
+                >
+                  {session.lastFeedback.correct
+                    ? t('play.feedback.correct')
+                    : t('play.feedback.wrong', {
+                        name: session.lastFeedback.expectedLabel,
+                      })}
+                  {modeId === 'name' && (
+                    <div style={{ marginTop: '0.5rem' }}>
+                      <IonButton size="small" onClick={continueAfterFeedback}>
+                        {t('play.feedback.continue')}
+                      </IonButton>
+                    </div>
+                  )}
                 </div>
               )}
-            </div>
-          )}
 
-          {modeId === 'name' && session.status === 'playing' && (
-            <form
-              className="geo-name-form"
-              onSubmit={(e) => {
-                e.preventDefault();
-                onSubmitText();
-              }}
-            >
-              <p className="ax-muted" style={{ margin: 0, textAlign: 'center' }}>
-                {t('play.name.hint')}
-              </p>
-              <input
-                value={textValue}
-                onChange={(e) => setTextValue(e.target.value)}
-                placeholder={t('play.name.placeholder')}
-                autoComplete="off"
-                autoCapitalize="words"
-                enterKeyHint="done"
-                aria-label={t('play.name.placeholder')}
-              />
-              <IonButton expand="block" type="submit" className="ax-btn-primary">
-                {t('play.name.submit')}
-              </IonButton>
-              <button type="button" className="geo-skip" onClick={skip}>
-                {t('play.skip')}
-              </button>
-            </form>
-          )}
+              {modeId === 'name' && session.status === 'playing' && (
+                <form
+                  className="geo-name-form"
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    onSubmitText();
+                  }}
+                >
+                  <p className="ax-muted" style={{ margin: 0, textAlign: 'center' }}>
+                    {t('play.name.hint')}
+                  </p>
+                  <input
+                    value={textValue}
+                    onChange={(e) => setTextValue(e.target.value)}
+                    placeholder={t('play.name.placeholder')}
+                    autoComplete="off"
+                    autoCapitalize="words"
+                    enterKeyHint="done"
+                    aria-label={t('play.name.placeholder')}
+                  />
+                  <IonButton expand="block" type="submit" className="ax-btn-primary">
+                    {t('play.name.submit')}
+                  </IonButton>
+                  <button type="button" className="geo-skip" onClick={skip}>
+                    {t('play.skip')}
+                  </button>
+                </form>
+              )}
+            </div>
+          </div>
         </div>
       </IonContent>
     </IonPage>

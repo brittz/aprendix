@@ -85,47 +85,49 @@ export default function HomePage() {
       </IonHeader>
       <IonContent fullscreen>
         <div className="ax-page">
-          <div className="home-stats">
-            <div className="ax-card home-stat">
-              <p className="home-stat-label">{t('home.streak')}</p>
-              <p className="home-stat-value">{played}</p>
-              <p className="home-stat-sub">{t('home.streakSub')}</p>
-            </div>
-            <div className="ax-card home-stat">
-              <p className="home-stat-label">{t('home.level')}</p>
-              <p className="home-stat-value">{t('home.levelValue', { level })}</p>
-              <div className="ax-progress" style={{ marginTop: '0.55rem' }}>
-                <span style={{ width: `${Math.min(100, (totalScore(sessions) % 800) / 8)}%` }} />
+          <div className="home-top-grid">
+            <div className="home-stats">
+              <div className="ax-card home-stat">
+                <p className="home-stat-label">{t('home.streak')}</p>
+                <p className="home-stat-value">{played}</p>
+                <p className="home-stat-sub">{t('home.streakSub')}</p>
               </div>
-            </div>
-          </div>
-
-          <div className="ax-card home-continue">
-            <div className="home-continue-top">
-              <div className="home-continue-icon" aria-hidden>
-                BR
-              </div>
-              <div style={{ flex: 1 }}>
-                <p className="home-stat-label">{t('home.continue')}</p>
-                <h2>{last?.title ?? t('phases.brStates.title')}</h2>
-                <p className="home-stat-sub">
-                  {t('home.progressShort', {
-                    current: stats.bestUniqueCorrect,
-                    total: 27,
-                  })}
-                </p>
-                <div className="ax-progress" style={{ marginTop: '0.45rem' }}>
-                  <span style={{ width: `${progressPct}%` }} />
+              <div className="ax-card home-stat">
+                <p className="home-stat-label">{t('home.level')}</p>
+                <p className="home-stat-value">{t('home.levelValue', { level })}</p>
+                <div className="ax-progress" style={{ marginTop: '0.55rem' }}>
+                  <span style={{ width: `${Math.min(100, (totalScore(sessions) % 800) / 8)}%` }} />
                 </div>
               </div>
             </div>
-            <IonButton
-              expand="block"
-              className="ax-btn-primary"
-              onClick={() => history.push(continuePath)}
-            >
-              {t('home.continueCta')}
-            </IonButton>
+
+            <div className="ax-card home-continue">
+              <div className="home-continue-top">
+                <div className="home-continue-icon" aria-hidden>
+                  BR
+                </div>
+                <div style={{ flex: 1 }}>
+                  <p className="home-stat-label">{t('home.continue')}</p>
+                  <h2>{last?.title ?? t('phases.brStates.title')}</h2>
+                  <p className="home-stat-sub">
+                    {t('home.progressShort', {
+                      current: stats.bestUniqueCorrect,
+                      total: 27,
+                    })}
+                  </p>
+                  <div className="ax-progress" style={{ marginTop: '0.45rem' }}>
+                    <span style={{ width: `${progressPct}%` }} />
+                  </div>
+                </div>
+              </div>
+              <IonButton
+                expand="block"
+                className="ax-btn-primary"
+                onClick={() => history.push(continuePath)}
+              >
+                {t('home.continueCta')}
+              </IonButton>
+            </div>
           </div>
 
           <div className="home-section-head">

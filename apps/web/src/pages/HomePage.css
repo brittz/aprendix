@@ -164,13 +164,78 @@
   line-height: 1.15;
 }
 
+/* Mobile: wrapper is invisible to layout */
+.home-top-grid {
+  display: contents;
+}
+
+/* Tablet */
 @media (min-width: 768px) {
-  .ax-page {
-    max-width: 720px;
-    padding-top: 1.5rem;
+  .home-cats {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    gap: 0.85rem;
+  }
+
+  .home-cat-icon {
+    font-size: 0.9rem;
+    max-width: 88px;
+    margin: 0 auto;
+  }
+
+  .home-cat span {
+    font-size: 0.8rem;
+  }
+
+  .home-continue {
+    padding: 1.25rem 1.35rem;
+  }
+}
+
+/* Desktop: stats column + continue hero */
+@media (min-width: 1024px) {
+  .home-top-grid {
+    display: grid;
+    grid-template-columns: minmax(240px, 300px) minmax(0, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+    align-items: stretch;
+  }
+
+  .home-stats {
+    grid-template-columns: 1fr;
+    margin-bottom: 0;
+    gap: 1rem;
+  }
+
+  .home-continue {
+    margin-bottom: 0;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.35rem 1.5rem;
+  }
+
+  .home-continue .ax-btn-primary {
+    min-width: 160px;
+    margin: 0;
+  }
+
+  .home-continue-top {
+    margin: 0;
+  }
+
+  .home-section-head {
+    margin-top: 0.25rem;
   }
 
   .home-cats {
-    grid-template-columns: repeat(8, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .home-cat-icon {
+    max-width: 104px;
+    border-radius: 22px;
+    font-size: 1rem;
   }
 }

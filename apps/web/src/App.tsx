@@ -90,7 +90,7 @@ function AppTabs() {
 
       <IonTabBar
         slot="bottom"
-        style={{ display: hideTabBar ? 'none' : undefined }}
+        style={hideTabBar ? { display: 'none' } : {}}
       >
         <IonTabButton tab="home" href="/tabs/home">
           <IonIcon icon={homeOutline} />

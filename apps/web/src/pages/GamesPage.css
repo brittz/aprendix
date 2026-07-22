@@ -35,3 +35,20 @@
 .games-item.is-soon {
   opacity: 0.55;
 }
+
+@media (min-width: 768px) {
+  .games-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .games-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .games-item {
+    padding: 1.15rem;
+  }
+}
