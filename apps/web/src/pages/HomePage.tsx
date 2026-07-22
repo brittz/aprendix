@@ -30,6 +30,7 @@ const CATEGORIES = [
   { id: 'en', label: 'Inglês', color: '#e0f2fe', icon: 'En', path: '/tabs/games' },
   { id: 'music', label: 'Música', color: '#ffe4e6', icon: '♪', path: '/tabs/games' },
   { id: 'babies', label: 'Bebês', color: '#ffedd5', icon: '0-1', path: '/babies' },
+  { id: 'toddlers', label: '1–2', color: '#e0e7ff', icon: '1-2', path: '/toddlers' },
 ] as const;
 
 export default function HomePage() {
@@ -51,7 +52,9 @@ export default function HomePage() {
       ? `/geography/${last.phaseId}/play/${last.modeId}`
       : last?.module === 'babies'
         ? '/babies'
-        : `/geography/${BR_STATES_PHASE.id}`;
+        : last?.module === 'toddlers'
+          ? '/toddlers'
+          : `/geography/${BR_STATES_PHASE.id}`;
 
   return (
     <IonPage>

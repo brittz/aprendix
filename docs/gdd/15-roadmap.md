@@ -25,10 +25,10 @@ Visão em fases. Datas são ordenação relativa, não compromisso de calendári
 - [x] Conteúdo free: 27 estados
 - [x] Contratos multijogador (sem implementação) + GDD `16-multiplayer.md`
 
-## Fase 2 — Jogos por faixa etária ← atual (2.1 feito; seguir 2.2+)
+## Fase 2 — Jogos por faixa etária ← atual (2.2 feito; seguir 2.3+)
 
 Catálogo cognitivo por idade. Detalhes: [`17-age-bands.md`](17-age-bands.md).  
-**Prioridade de implementação: bebês (0–1 ano).**
+**Próximo: crianças 2–4 anos.**
 
 ### 2.1 — Bebês (0–1 ano) — prioridade
 
@@ -47,13 +47,15 @@ Objetivo: estimulação visual, auditiva e descoberta.
 
 ### 2.2 — Crianças (1–2 anos)
 
-- [ ] Formas
-- [ ] Cores (extensão)
-- [ ] Frutas
-- [ ] Animais (extensão)
-- [ ] Partes do corpo
-- [ ] Grande × pequeno
-- [ ] Igual × diferente
+- [x] Formas
+- [x] Cores (extensão)
+- [x] Frutas
+- [x] Animais (extensão)
+- [x] Partes do corpo
+- [x] Grande × pequeno
+- [x] Igual × diferente
+- [x] Shell “Descobertas 1–2” + regras sem score/timer/competição
+- [x] Entrada na home / jogos (`/toddlers`)
 
 ### 2.3 — Crianças (2–4 anos)
 

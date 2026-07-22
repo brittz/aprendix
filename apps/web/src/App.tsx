@@ -28,6 +28,8 @@ import ResultsPage from './features/geography/pages/ResultsPage';
 import AnswersReviewPage from './features/geography/pages/AnswersReviewPage';
 import BabiesHubPage from './features/babies/pages/BabiesHubPage';
 import BabyPlayPage from './features/babies/pages/BabyPlayPage';
+import ToddlersHubPage from './features/toddlers/pages/ToddlersHubPage';
+import ToddlerPlayPage from './features/toddlers/pages/ToddlerPlayPage';
 import { t } from './i18n';
 
 import '@ionic/react/css/core.css';
@@ -49,7 +51,8 @@ function AppTabs() {
   const location = useLocation();
   const hideTabBar =
     /\/(play|results|review)\//.test(location.pathname) ||
-    location.pathname.includes('/babies/play');
+    location.pathname.includes('/babies/play') ||
+    location.pathname.includes('/toddlers/play');
 
   return (
     <IonTabs>
@@ -79,6 +82,13 @@ function AppTabs() {
 
         <Route exact path="/babies" component={BabiesHubPage} />
         <Route exact path="/babies/play/:activityId" component={BabyPlayPage} />
+
+        <Route exact path="/toddlers" component={ToddlersHubPage} />
+        <Route
+          exact
+          path="/toddlers/play/:activityId"
+          component={ToddlerPlayPage}
+        />
 
         <Route exact path="/home">
           <Redirect to="/tabs/home" />

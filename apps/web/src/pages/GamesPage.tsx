@@ -27,6 +27,14 @@ const GAMES = [
     ready: true,
   },
   {
+    id: 'toddlers',
+    titleKey: 'home.cta.toddlers' as const,
+    desc: 'Formas, cores, frutas e contraste',
+    color: '#e0e7ff',
+    path: '/toddlers',
+    ready: true,
+  },
+  {
     id: 'math',
     titleKey: 'cat.math' as const,
     desc: 'Em breve',

@@ -222,10 +222,19 @@ declare module '@aprendix/early-years' {
     | 'music'
     | 'rhythm';
 
+  export type ToddlerActivityKind =
+    | 'shapes'
+    | 'colors'
+    | 'fruits'
+    | 'animals'
+    | 'body'
+    | 'size'
+    | 'same-diff';
+
   export interface EarlyActivity {
     id: string;
     ageBand: AgeBandId;
-    kind: BabyActivityKind | string;
+    kind: BabyActivityKind | ToddlerActivityKind | string;
     titleKey: string;
     descriptionKey: string;
     licenseTier: LicenseTier;
@@ -234,9 +243,14 @@ declare module '@aprendix/early-years' {
 
   export const AGE_BANDS: AgeBandDefinition[];
   export const BABY_ACTIVITIES: EarlyActivity[];
+  export const TODDLER_ACTIVITIES: EarlyActivity[];
   export function getAgeBand(id: AgeBandId): AgeBandDefinition | undefined;
   export function assertBabySafe(rules: AgeBandRules): void;
+  export function assertToddlerSafe(rules: AgeBandRules): void;
   export function listBabyActivities(): EarlyActivity[];
   export function getBabyActivity(id: string): EarlyActivity | undefined;
   export function listFreeBabyActivities(): EarlyActivity[];
+  export function listToddlerActivities(): EarlyActivity[];
+  export function getToddlerActivity(id: string): EarlyActivity | undefined;
+  export function listFreeToddlerActivities(): EarlyActivity[];
 }

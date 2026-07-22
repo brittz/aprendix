@@ -1,6 +1,7 @@
 export {
   AGE_BANDS,
   assertBabySafe,
+  assertToddlerSafe,
   getAgeBand,
   type AgeBandDefinition,
   type AgeBandId,
@@ -8,6 +9,7 @@ export {
   type BabyActivityKind,
   type EarlyActivity,
   type LicenseTier,
+  type ToddlerActivityKind,
 } from './types';
 
 export {
@@ -16,3 +18,10 @@ export {
   listBabyActivities,
   listFreeBabyActivities,
 } from './babies';
+
+export {
+  TODDLER_ACTIVITIES,
+  getToddlerActivity,
+  listToddlerActivities,
+  listFreeToddlerActivities,
+} from './toddlers';

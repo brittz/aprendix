@@ -35,14 +35,23 @@ export type BabyActivityKind =
   | 'music'
   | 'rhythm';
 
+export type ToddlerActivityKind =
+  | 'shapes'
+  | 'colors'
+  | 'fruits'
+  | 'animals'
+  | 'body'
+  | 'size'
+  | 'same-diff';
+
 export interface EarlyActivity {
   id: string;
   ageBand: AgeBandId;
-  kind: BabyActivityKind | string;
+  kind: BabyActivityKind | ToddlerActivityKind | string;
   titleKey: string;
   descriptionKey: string;
   licenseTier: LicenseTier;
-  /** For caregivers only — never shown as score to the baby. */
+  /** For caregivers only — never shown as score to the child. */
   caregiverHintKey?: string;
 }
 
@@ -62,7 +71,12 @@ export const AGE_BANDS: AgeBandDefinition[] = [
     id: '1-2',
     titleKey: 'bands.1-2.title',
     descriptionKey: 'bands.1-2.description',
-    rules: { scoring: false, timer: false, competition: false },
+    rules: {
+      scoring: false,
+      timer: false,
+      competition: false,
+      suggestedTouchBudget: 10,
+    },
   },
   {
     id: '2-4',
@@ -94,9 +108,11 @@ export function getAgeBand(id: AgeBandId): AgeBandDefinition | undefined {
   return AGE_BANDS.find((band) => band.id === id);
 }
 
-/** Assert baby safety invariants (call from activity shells). */
+/** Assert early-years safety (0–1 and 1–2): no score/timer/competition. */
 export function assertBabySafe(rules: AgeBandRules): void {
   if (rules.scoring || rules.timer || rules.competition) {
-    throw new Error('Baby band (0-1) cannot enable scoring, timer, or competition');
+    throw new Error('Early band cannot enable scoring, timer, or competition');
   }
 }
+
+export const assertToddlerSafe = assertBabySafe;
