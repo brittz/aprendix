@@ -76,10 +76,21 @@ Novo mapa ou modo **não** reescreve o core: adiciona content pack + config (+ p
 
 ## Relação com o plugin
 
-Dependência no monorepo:
+## Relação com o plugin
 
-```json
-"@federacao/react-brazil-map": "file:../../packages/react-brazil-map"
+O mapa **não depende** do path local `plugins/react-brazil-map` no CI.
+
+No monorepo Aprendix a geometria/código vive em:
+
+```text
+packages/react-brazil-map/   ← vendorizado no Git (deploy Vercel OK)
 ```
 
-Origem do plugin: `E:/Desenvolvimento/Projetos/plugins/react-brazil-map` (vendorizado em `packages/` para CI).
+Consumo no app:
+
+1. **Runtime/bundle (Vite):** alias → `packages/react-brazil-map/src`
+2. **Typecheck (`tsc`):** tipos ambient em `apps/web/src/types/react-brazil-map.d.ts`  
+   (evita o `tsc` entrar nos `.tsx` do pacote e procurar `react` fora de `apps/web/node_modules`)
+
+Origem de desenvolvimento do plugin (fora do repo):  
+`E:/Desenvolvimento/Projetos/plugins/react-brazil-map` — sincronizar para `packages/` quando evoluir.
