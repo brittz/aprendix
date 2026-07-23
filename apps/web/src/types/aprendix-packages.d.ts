@@ -231,10 +231,18 @@ declare module '@aprendix/early-years' {
     | 'size'
     | 'same-diff';
 
+  export type PreschoolActivityKind =
+    | 'memory'
+    | 'association'
+    | 'sequences'
+    | 'words'
+    | 'counting'
+    | 'puzzle';
+
   export interface EarlyActivity {
     id: string;
     ageBand: AgeBandId;
-    kind: BabyActivityKind | ToddlerActivityKind | string;
+    kind: BabyActivityKind | ToddlerActivityKind | PreschoolActivityKind | string;
     titleKey: string;
     descriptionKey: string;
     licenseTier: LicenseTier;
@@ -244,13 +252,18 @@ declare module '@aprendix/early-years' {
   export const AGE_BANDS: AgeBandDefinition[];
   export const BABY_ACTIVITIES: EarlyActivity[];
   export const TODDLER_ACTIVITIES: EarlyActivity[];
+  export const PRESCHOOL_ACTIVITIES: EarlyActivity[];
   export function getAgeBand(id: AgeBandId): AgeBandDefinition | undefined;
   export function assertBabySafe(rules: AgeBandRules): void;
   export function assertToddlerSafe(rules: AgeBandRules): void;
+  export function assertPreschoolSafe(rules: AgeBandRules): void;
   export function listBabyActivities(): EarlyActivity[];
   export function getBabyActivity(id: string): EarlyActivity | undefined;
   export function listFreeBabyActivities(): EarlyActivity[];
   export function listToddlerActivities(): EarlyActivity[];
   export function getToddlerActivity(id: string): EarlyActivity | undefined;
   export function listFreeToddlerActivities(): EarlyActivity[];
+  export function listPreschoolActivities(): EarlyActivity[];
+  export function getPreschoolActivity(id: string): EarlyActivity | undefined;
+  export function listFreePreschoolActivities(): EarlyActivity[];
 }

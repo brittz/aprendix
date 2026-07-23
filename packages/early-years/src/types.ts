@@ -44,10 +44,18 @@ export type ToddlerActivityKind =
   | 'size'
   | 'same-diff';
 
+export type PreschoolActivityKind =
+  | 'memory'
+  | 'association'
+  | 'sequences'
+  | 'words'
+  | 'counting'
+  | 'puzzle';
+
 export interface EarlyActivity {
   id: string;
   ageBand: AgeBandId;
-  kind: BabyActivityKind | ToddlerActivityKind | string;
+  kind: BabyActivityKind | ToddlerActivityKind | PreschoolActivityKind | string;
   titleKey: string;
   descriptionKey: string;
   licenseTier: LicenseTier;
@@ -82,7 +90,12 @@ export const AGE_BANDS: AgeBandDefinition[] = [
     id: '2-4',
     titleKey: 'bands.2-4.title',
     descriptionKey: 'bands.2-4.description',
-    rules: { scoring: false, timer: false, competition: false },
+    rules: {
+      scoring: false,
+      timer: false,
+      competition: false,
+      suggestedTouchBudget: 12,
+    },
   },
   {
     id: '4-6',
@@ -108,7 +121,7 @@ export function getAgeBand(id: AgeBandId): AgeBandDefinition | undefined {
   return AGE_BANDS.find((band) => band.id === id);
 }
 
-/** Assert early-years safety (0–1 and 1–2): no score/timer/competition. */
+/** Assert early-years safety (0–1, 1–2, 2–4): no score/timer/competition. */
 export function assertBabySafe(rules: AgeBandRules): void {
   if (rules.scoring || rules.timer || rules.competition) {
     throw new Error('Early band cannot enable scoring, timer, or competition');
@@ -116,3 +129,4 @@ export function assertBabySafe(rules: AgeBandRules): void {
 }
 
 export const assertToddlerSafe = assertBabySafe;
+export const assertPreschoolSafe = assertBabySafe;

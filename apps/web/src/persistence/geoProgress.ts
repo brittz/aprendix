@@ -5,7 +5,7 @@ const LAST_KEY = 'aprendix.lastPlayed.v1';
 const PROFILE_KEY = 'aprendix.profile.v1';
 
 export interface LastPlayed {
-  module: 'geography' | 'babies' | 'toddlers';
+  module: 'geography' | 'babies' | 'toddlers' | 'preschool';
   phaseId?: string;
   modeId?: string;
   activityId?: string;

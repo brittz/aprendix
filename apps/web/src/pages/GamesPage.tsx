@@ -35,6 +35,14 @@ const GAMES = [
     ready: true,
   },
   {
+    id: 'preschool',
+    titleKey: 'home.cta.preschool' as const,
+    desc: 'Memória, palavras, contagem e sequências',
+    color: '#dcfce7',
+    path: '/preschool',
+    ready: true,
+  },
+  {
     id: 'math',
     titleKey: 'cat.math' as const,
     desc: 'Em breve',
