@@ -1,4 +1,4 @@
-/** Soft Web Audio helpers for early-years — no external assets. */
+/** Soft Web Audio helpers for early-years. Animal cues prefer licensed samples. */
 
 let sharedCtx: AudioContext | null = null;
 let muted = false;
@@ -122,44 +122,90 @@ function playVibratoTone(
   lfo.stop(now + durationSec + 0.03);
 }
 
-/** Soft characteristic cues — still synthesized, but distinct per animal. */
-export function playAnimalCue(kind: string) {
+/** Soft synthesized fallback (used if a sample is missing or fails). */
+function playAnimalSynth(kind: string) {
   switch (kind) {
     case 'cat':
-      // Meow: rise then fall
       playGlide(520, 780, 0.14, 'sine', 0.08, 0);
       playGlide(780, 420, 0.28, 'triangle', 0.07, 0.12);
       break;
     case 'dog':
-      // Two short barks
       playGlide(260, 170, 0.12, 'square', 0.045, 0);
       playGlide(240, 150, 0.14, 'square', 0.04, 0.18);
       break;
     case 'bird':
-      // Quick chirps
       playGlide(980, 1280, 0.08, 'sine', 0.06, 0);
       playGlide(1100, 1500, 0.08, 'sine', 0.055, 0.1);
       playGlide(900, 1200, 0.1, 'sine', 0.05, 0.2);
       break;
     case 'cow':
-      // Low moo with vibrato
       playVibratoTone(145, 0.55, 'sawtooth', 0.04, 5.5, 12, 0);
       playGlide(155, 110, 0.5, 'triangle', 0.035, 0.05);
       break;
     case 'frog':
-      // Ribbit pair
       playGlide(220, 340, 0.1, 'triangle', 0.07, 0);
       playGlide(340, 180, 0.16, 'triangle', 0.06, 0.1);
       playGlide(210, 300, 0.08, 'triangle', 0.05, 0.32);
       break;
     case 'duck':
-      // Nasal quacks
       playGlide(420, 280, 0.12, 'sawtooth', 0.035, 0);
       playGlide(400, 260, 0.12, 'sawtooth', 0.03, 0.16);
       break;
     default:
       playTone(300, 0.35, 'triangle', 0.09);
   }
+}
+
+const ANIMAL_SAMPLES: Record<string, string> = {
+  cat: '/audio/animals/cat.ogg',
+  dog: '/audio/animals/dog.ogg',
+  bird: '/audio/animals/bird.mp3',
+  cow: '/audio/animals/cow.ogg',
+  frog: '/audio/animals/frog.oga',
+  duck: '/audio/animals/duck.ogg',
+};
+
+const sampleCache = new Map<string, HTMLAudioElement>();
+const sampleFailed = new Set<string>();
+
+function playAnimalSample(kind: string): boolean {
+  if (muted) return true;
+  const src = ANIMAL_SAMPLES[kind];
+  if (!src || sampleFailed.has(kind)) return false;
+  if (typeof Audio === 'undefined') return false;
+
+  try {
+    let el = sampleCache.get(kind);
+    if (!el) {
+      el = new Audio(src);
+      el.preload = 'auto';
+      el.volume = 0.55;
+      el.addEventListener('error', () => {
+        sampleFailed.add(kind);
+      });
+      sampleCache.set(kind, el);
+    }
+
+    el.pause();
+    el.currentTime = 0;
+    const playPromise = el.play();
+    if (playPromise) {
+      playPromise.catch(() => {
+        sampleFailed.add(kind);
+        playAnimalSynth(kind);
+      });
+    }
+    return true;
+  } catch {
+    sampleFailed.add(kind);
+    return false;
+  }
+}
+
+/** Prefer licensed animal samples; fall back to soft synth cues. */
+export function playAnimalCue(kind: string) {
+  if (playAnimalSample(kind)) return;
+  playAnimalSynth(kind);
 }
 
 export function playColorCue(index: number) {

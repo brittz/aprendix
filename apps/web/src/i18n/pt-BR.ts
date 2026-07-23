@@ -78,7 +78,8 @@ export const ptBR = {
 
   'baby.animals.title': 'Animais',
   'baby.animals.description': 'Toque nos animais e ouça o som de cada um.',
-  'baby.animals.hint': 'Cada animal tem um som característico suave — descubram juntos.',
+  'baby.animals.hint':
+    'Cada animal tem um som real suave — descubram juntos. Mute disponível.',
   'baby.colors.title': 'Cores',
   'baby.colors.description': 'Campos de cor amplos que reagem ao toque.',
   'baby.colors.hint': 'Toque para mudar a cor e ouvir um tom leve.',
