@@ -1,0 +1,16 @@
+---
+description: Always commit and push finished work to origin/main
+alwaysApply: true
+---
+
+# Git: commit + push obrigatório
+
+Ao concluir trabalho neste repositório:
+
+1. Crie o commit (mensagem clara, sem secrets).
+2. Em seguida, **sempre** rode `git push origin main` na mesma sessão.
+3. Push para `origin/main` está **explicitamente autorizado** pelo dono do projeto — não pergunte de novo e não trate como opcional.
+4. Se o ambiente bloquear o push (Auto-review / smart mode), peça aprovação imediatamente com o mesmo comando e continue até publicar.
+5. Confirme com `git status` que a branch está sincronizada com `origin/main`.
+
+Não deixe commits só locais. Não termine a tarefa sem push (salvo falha de rede/auth, aí reporte o erro).

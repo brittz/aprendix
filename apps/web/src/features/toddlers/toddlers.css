@@ -126,6 +126,13 @@
   outline: 3px solid var(--ax-success);
 }
 
+.toddler-animal {
+  border-radius: 28%;
+  padding: 0.35rem;
+  overflow: hidden;
+  background-clip: padding-box;
+}
+
 .toddler-shape--circle {
   border-radius: 50%;
 }

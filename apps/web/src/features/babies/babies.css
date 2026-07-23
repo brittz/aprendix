@@ -121,6 +121,12 @@
   filter: brightness(1.08);
 }
 
+.baby-animal {
+  border-radius: 28%;
+  padding: 0.35rem;
+  overflow: hidden;
+}
+
 .baby-color-field {
   width: 100%;
   height: 100%;
