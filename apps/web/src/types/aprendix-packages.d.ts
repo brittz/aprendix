@@ -116,6 +116,8 @@ declare module '@aprendix/game-core' {
     maxStreak: number;
     avgResponseMs: number;
     uniqueCorrect: number;
+    missesByRegion?: Record<string, number>;
+    attemptsByRegion?: Record<string, number>;
   }
 
   export interface PhaseStats {
@@ -125,6 +127,13 @@ declare module '@aprendix/game-core' {
     previousBestUniqueCorrect: number;
     bestScore: number;
     lastSessionAt?: number;
+  }
+
+  export interface RegionMissStat {
+    regionId: string;
+    misses: number;
+    attempts: number;
+    missRate: number;
   }
 
   export function createSession(options: {
@@ -175,6 +184,11 @@ declare module '@aprendix/game-core' {
     history: StoredSession[],
     phaseId: string,
   ): PhaseStats;
+  export function topMissedRegions(
+    history: StoredSession[],
+    phaseId: string,
+    limit?: number,
+  ): RegionMissStat[];
 
   export type MultiplayerModeId = 'claim';
 }

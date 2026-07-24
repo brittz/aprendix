@@ -261,6 +261,11 @@ export const ptBR = {
   'geo.back': 'Voltar',
   'geo.multiplayer.soon':
     'Multijogador online em breve: reivindique regiões por turnos e veja quem conhece mais o mapa.',
+  'geo.regionStats.title': 'Regiões com mais erros',
+  'geo.regionStats.lede':
+    'Com base nas suas partidas recentes — pratique estas primeiro.',
+  'geo.regionStats.line': '{{name}}: {{misses}} erro(s)',
+  'geo.regionStats.empty': 'Jogue uma partida para ver erros frequentes.',
 
   'phases.brStates.title': 'Estados do Brasil',
   'phases.brStates.description':

@@ -35,7 +35,9 @@ export {
 export {
   aggregatePhaseStats,
   evolutionFromHistory,
+  topMissedRegions,
   toStoredSession,
   type PhaseStats,
+  type RegionMissStat,
   type StoredSession,
 } from './progress';

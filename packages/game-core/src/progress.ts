@@ -16,6 +16,10 @@ export interface StoredSession {
   avgResponseMs: number;
   /** Unique regions correct — used for “18 → 25” evolution. */
   uniqueCorrect: number;
+  /** Miss counts by region id (for frequent-error stats). */
+  missesByRegion?: Record<string, number>;
+  /** Attempt counts by region id. */
+  attemptsByRegion?: Record<string, number>;
 }
 
 export interface PhaseStats {
@@ -27,8 +31,27 @@ export interface PhaseStats {
   lastSessionAt?: number;
 }
 
+export interface RegionMissStat {
+  regionId: string;
+  misses: number;
+  attempts: number;
+  missRate: number;
+}
+
 export function toStoredSession(session: SessionSnapshot): StoredSession {
   const summary = sessionSummary(session);
+  const missesByRegion: Record<string, number> = {};
+  const attemptsByRegion: Record<string, number> = {};
+
+  for (const attempt of session.attempts) {
+    attemptsByRegion[attempt.regionId] =
+      (attemptsByRegion[attempt.regionId] ?? 0) + 1;
+    if (!attempt.correct) {
+      missesByRegion[attempt.regionId] =
+        (missesByRegion[attempt.regionId] ?? 0) + 1;
+    }
+  }
+
   return {
     id: session.id,
     profileId: session.profileId,
@@ -43,6 +66,8 @@ export function toStoredSession(session: SessionSnapshot): StoredSession {
     maxStreak: summary.maxStreak,
     avgResponseMs: summary.avgResponseMs,
     uniqueCorrect: uniqueCorrectCount(session),
+    missesByRegion,
+    attemptsByRegion,
   };
 }
 
@@ -99,4 +124,40 @@ export function aggregatePhaseStats(
     bestScore,
     lastSessionAt: filtered[filtered.length - 1]?.endedAt,
   };
+}
+
+/** Regions with the most misses across stored sessions for a phase. */
+export function topMissedRegions(
+  history: StoredSession[],
+  phaseId: string,
+  limit = 5,
+): RegionMissStat[] {
+  const misses: Record<string, number> = {};
+  const attempts: Record<string, number> = {};
+
+  for (const session of history) {
+    if (session.phaseId !== phaseId) continue;
+    for (const [regionId, count] of Object.entries(session.missesByRegion ?? {})) {
+      misses[regionId] = (misses[regionId] ?? 0) + count;
+    }
+    for (const [regionId, count] of Object.entries(
+      session.attemptsByRegion ?? {},
+    )) {
+      attempts[regionId] = (attempts[regionId] ?? 0) + count;
+    }
+  }
+
+  return Object.keys(misses)
+    .map((regionId) => {
+      const missCount = misses[regionId] ?? 0;
+      const attemptCount = attempts[regionId] ?? missCount;
+      return {
+        regionId,
+        misses: missCount,
+        attempts: attemptCount,
+        missRate: attemptCount === 0 ? 0 : missCount / attemptCount,
+      };
+    })
+    .sort((a, b) => b.misses - a.misses || b.missRate - a.missRate)
+    .slice(0, limit);
 }

@@ -97,13 +97,13 @@ Jogos mais completos e desafiadores (muitos já nascem no Motor de Geografia e e
 - [ ] Biomas, oceanos, montanhas, rios *(Fase 4)*
 - [ ] Modos de pressão opcionais (tempo / sobrevivência) *(Fase 4)*
 
-## Fase 3 — Qualidade e mobile
+## Fase 3 — Qualidade e mobile ← atual
 
 - [ ] Acessibilidade (teclado, contraste, reduced motion)
-- [ ] Áudio suave + mute (base compartilhada com faixa bebê)
+- [x] Áudio suave + mute (base compartilhada com faixa bebê)
 - [ ] Build Capacitor Android / iOS
-- [ ] Testes unitários da engine e modos
-- [ ] Estatísticas por região (erros frequentes)
+- [x] Testes unitários da engine e modos (vitest em `game-core`)
+- [x] Estatísticas por região (erros frequentes)
 
 ## Fase 4 — Modos e conteúdo (Geografia)
 
