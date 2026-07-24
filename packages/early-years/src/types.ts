@@ -58,6 +58,13 @@ export type JuniorActivityKind =
   | 'arithmetic'
   | 'logic';
 
+export type SchoolActivityKind =
+  | 'geography'
+  | 'history'
+  | 'science'
+  | 'languages'
+  | 'math';
+
 export interface EarlyActivity {
   id: string;
   ageBand: AgeBandId;
@@ -66,12 +73,15 @@ export interface EarlyActivity {
     | ToddlerActivityKind
     | PreschoolActivityKind
     | JuniorActivityKind
+    | SchoolActivityKind
     | string;
   titleKey: string;
   descriptionKey: string;
   licenseTier: LicenseTier;
   /** For caregivers only — never shown as score to the child. */
   caregiverHintKey?: string;
+  /** Optional deep-link when the activity lives in another module. */
+  externalPath?: string;
 }
 
 export const AGE_BANDS: AgeBandDefinition[] = [
@@ -123,13 +133,23 @@ export const AGE_BANDS: AgeBandDefinition[] = [
     id: '6-10',
     titleKey: 'bands.6-10.title',
     descriptionKey: 'bands.6-10.description',
-    rules: { scoring: true, timer: false, competition: false },
+    rules: {
+      scoring: true,
+      timer: false,
+      competition: false,
+      suggestedTouchBudget: 14,
+    },
   },
   {
     id: '10-plus',
     titleKey: 'bands.10-plus.title',
     descriptionKey: 'bands.10-plus.description',
-    rules: { scoring: true, timer: true, competition: true },
+    rules: {
+      scoring: true,
+      timer: true,
+      competition: true,
+      suggestedTouchBudget: 16,
+    },
   },
 ];
 
@@ -147,9 +167,11 @@ export function assertBabySafe(rules: AgeBandRules): void {
 export const assertToddlerSafe = assertBabySafe;
 export const assertPreschoolSafe = assertBabySafe;
 
-/** Assert 4–6 safety: no timer / competition (light scoring allowed). */
+/** Assert 4–6 / 6–10 default safety: no competition; timer off by default. */
 export function assertJuniorSafe(rules: AgeBandRules): void {
-  if (rules.timer || rules.competition) {
-    throw new Error('Junior band cannot enable timer or competition');
+  if (rules.competition) {
+    throw new Error('This band cannot enable competition by default');
   }
 }
+
+export const assertSchoolSafe = assertJuniorSafe;

@@ -4,6 +4,7 @@ export {
   assertToddlerSafe,
   assertPreschoolSafe,
   assertJuniorSafe,
+  assertSchoolSafe,
   getAgeBand,
   type AgeBandDefinition,
   type AgeBandId,
@@ -13,6 +14,7 @@ export {
   type JuniorActivityKind,
   type LicenseTier,
   type PreschoolActivityKind,
+  type SchoolActivityKind,
   type ToddlerActivityKind,
 } from './types';
 
@@ -43,3 +45,17 @@ export {
   listJuniorActivities,
   listFreeJuniorActivities,
 } from './junior';
+
+export {
+  SCHOOL_ACTIVITIES,
+  getSchoolActivity,
+  listSchoolActivities,
+  listFreeSchoolActivities,
+} from './school';
+
+export {
+  ADULT_ACTIVITIES,
+  getAdultActivity,
+  listAdultActivities,
+  listFreeAdultActivities,
+} from './adults';

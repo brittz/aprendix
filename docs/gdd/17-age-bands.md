@@ -1,6 +1,6 @@
 # 17 — Jogos por faixa etária
 
-**Status:** Fase 2.4 (4–6 anos) implementada no app; próximas faixas no roadmap.  
+**Status:** Fase 2 completa (0–1 até 10+ hubs no app). Próximo: Fase 3/4.  
 **Posicionamento:** desenvolvimento cognitivo por idade, não “mais um app de jogos”.
 
 ---

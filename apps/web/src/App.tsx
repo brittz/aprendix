@@ -34,6 +34,10 @@ import PreschoolHubPage from './features/preschool/pages/PreschoolHubPage';
 import PreschoolPlayPage from './features/preschool/pages/PreschoolPlayPage';
 import JuniorHubPage from './features/junior/pages/JuniorHubPage';
 import JuniorPlayPage from './features/junior/pages/JuniorPlayPage';
+import SchoolHubPage from './features/school/pages/SchoolHubPage';
+import SchoolPlayPage from './features/school/pages/SchoolPlayPage';
+import AdultsHubPage from './features/adults/pages/AdultsHubPage';
+import AdultPlayPage from './features/adults/pages/AdultPlayPage';
 import { t } from './i18n';
 
 import '@ionic/react/css/core.css';
@@ -58,7 +62,9 @@ function AppTabs() {
     location.pathname.includes('/babies/play') ||
     location.pathname.includes('/toddlers/play') ||
     location.pathname.includes('/preschool/play') ||
-    location.pathname.includes('/junior/play');
+    location.pathname.includes('/junior/play') ||
+    location.pathname.includes('/school/play') ||
+    location.pathname.includes('/adults/play');
 
   return (
     <IonTabs>
@@ -105,6 +111,12 @@ function AppTabs() {
 
         <Route exact path="/junior" component={JuniorHubPage} />
         <Route exact path="/junior/play/:activityId" component={JuniorPlayPage} />
+
+        <Route exact path="/school" component={SchoolHubPage} />
+        <Route exact path="/school/play/:activityId" component={SchoolPlayPage} />
+
+        <Route exact path="/adults" component={AdultsHubPage} />
+        <Route exact path="/adults/play/:activityId" component={AdultPlayPage} />
 
         <Route exact path="/home">
           <Redirect to="/tabs/home" />

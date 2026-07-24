@@ -245,6 +245,13 @@ declare module '@aprendix/early-years' {
     | 'arithmetic'
     | 'logic';
 
+  export type SchoolActivityKind =
+    | 'geography'
+    | 'history'
+    | 'science'
+    | 'languages'
+    | 'math';
+
   export interface EarlyActivity {
     id: string;
     ageBand: AgeBandId;
@@ -253,11 +260,13 @@ declare module '@aprendix/early-years' {
       | ToddlerActivityKind
       | PreschoolActivityKind
       | JuniorActivityKind
+      | SchoolActivityKind
       | string;
     titleKey: string;
     descriptionKey: string;
     licenseTier: LicenseTier;
     caregiverHintKey?: string;
+    externalPath?: string;
   }
 
   export const AGE_BANDS: AgeBandDefinition[];
@@ -265,11 +274,14 @@ declare module '@aprendix/early-years' {
   export const TODDLER_ACTIVITIES: EarlyActivity[];
   export const PRESCHOOL_ACTIVITIES: EarlyActivity[];
   export const JUNIOR_ACTIVITIES: EarlyActivity[];
+  export const SCHOOL_ACTIVITIES: EarlyActivity[];
+  export const ADULT_ACTIVITIES: EarlyActivity[];
   export function getAgeBand(id: AgeBandId): AgeBandDefinition | undefined;
   export function assertBabySafe(rules: AgeBandRules): void;
   export function assertToddlerSafe(rules: AgeBandRules): void;
   export function assertPreschoolSafe(rules: AgeBandRules): void;
   export function assertJuniorSafe(rules: AgeBandRules): void;
+  export function assertSchoolSafe(rules: AgeBandRules): void;
   export function listBabyActivities(): EarlyActivity[];
   export function getBabyActivity(id: string): EarlyActivity | undefined;
   export function listFreeBabyActivities(): EarlyActivity[];
@@ -282,4 +294,10 @@ declare module '@aprendix/early-years' {
   export function listJuniorActivities(): EarlyActivity[];
   export function getJuniorActivity(id: string): EarlyActivity | undefined;
   export function listFreeJuniorActivities(): EarlyActivity[];
+  export function listSchoolActivities(): EarlyActivity[];
+  export function getSchoolActivity(id: string): EarlyActivity | undefined;
+  export function listFreeSchoolActivities(): EarlyActivity[];
+  export function listAdultActivities(): EarlyActivity[];
+  export function getAdultActivity(id: string): EarlyActivity | undefined;
+  export function listFreeAdultActivities(): EarlyActivity[];
 }

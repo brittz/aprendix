@@ -25,10 +25,10 @@ Visão em fases. Datas são ordenação relativa, não compromisso de calendári
 - [x] Conteúdo free: 27 estados
 - [x] Contratos multijogador (sem implementação) + GDD `16-multiplayer.md`
 
-## Fase 2 — Jogos por faixa etária ← atual (2.4 feito; seguir 2.5+)
+## Fase 2 — Jogos por faixa etária ← concluída (2.1–2.6)
 
 Catálogo cognitivo por idade. Detalhes: [`17-age-bands.md`](17-age-bands.md).  
-**Próximo: crianças 6–10 anos (hub etário + geografia).**
+**Próximo: Fase 3 (qualidade/mobile) e Fase 4 (expansões de Geografia).**
 
 ### 2.1 — Bebês (0–1 ano) — prioridade
 
@@ -79,20 +79,23 @@ Objetivo: estimulação visual, auditiva e descoberta.
 
 ### 2.5 — Crianças (6–10 anos)
 
-- [ ] Geografia (além do MVP de estados — integração com módulos etários)
-- [ ] História
-- [ ] Ciências / Sistema Solar
-- [ ] Inglês e Português
-- [ ] Matemática
+- [x] Geografia (além do MVP de estados — integração com módulos etários)
+- [x] História
+- [x] Ciências / Sistema Solar
+- [x] Inglês e Português
+- [x] Matemática
+- [x] Shell “Explorar 6–10” (`/school`) + link para `/geography`
 
 ### 2.6 — 10 anos até adultos
 
 Jogos mais completos e desafiadores (muitos já nascem no Motor de Geografia e expansões):
 
-- [ ] Estados, capitais, países, bandeiras
-- [ ] Biomas, oceanos, montanhas, rios
-- [ ] História e ciências em profundidade
-- [ ] Modos de pressão opcionais (tempo / sobrevivência) — nunca default em faixas baixas
+- [x] Shell “Desafios 10+” (`/adults`) integrado à Geografia
+- [x] História e ciências em profundidade (amostra free em quiz)
+- [x] Desafio numérico free
+- [ ] Estados, capitais, países, bandeiras *(expansão de conteúdo — Fase 4)*
+- [ ] Biomas, oceanos, montanhas, rios *(Fase 4)*
+- [ ] Modos de pressão opcionais (tempo / sobrevivência) *(Fase 4)*
 
 ## Fase 3 — Qualidade e mobile
 

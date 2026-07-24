@@ -57,7 +57,7 @@ export default function JuniorPlayPage() {
     );
   }
 
-  if (band.rules.timer || band.rules.competition) {
+  if (band.rules.competition) {
     throw new Error('Invalid junior rules');
   }
 
