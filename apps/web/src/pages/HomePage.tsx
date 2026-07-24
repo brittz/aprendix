@@ -23,15 +23,16 @@ import './HomePage.css';
 
 const CATEGORIES = [
   { id: 'geo', label: 'Geografia', color: '#dbeafe', icon: 'Geo', path: '/geography' },
-  { id: 'math', label: 'Matemática', color: '#fce7f3', icon: '∑', path: '/tabs/games' },
-  { id: 'letters', label: 'Letras', color: '#fef3c7', icon: 'Aa', path: '/tabs/games' },
+  { id: 'math', label: 'Matemática', color: '#fce7f3', icon: '∑', path: '/junior' },
+  { id: 'letters', label: 'Letras', color: '#fef3c7', icon: 'Aa', path: '/junior' },
   { id: 'science', label: 'Ciências', color: '#dcfce7', icon: 'Sci', path: '/tabs/games' },
-  { id: 'memory', label: 'Memória', color: '#ede9fe', icon: 'Mem', path: '/tabs/games' },
+  { id: 'memory', label: 'Memória', color: '#ede9fe', icon: 'Mem', path: '/preschool' },
   { id: 'en', label: 'Inglês', color: '#e0f2fe', icon: 'En', path: '/tabs/games' },
   { id: 'music', label: 'Música', color: '#ffe4e6', icon: '♪', path: '/tabs/games' },
   { id: 'babies', label: 'Bebês', color: '#ffedd5', icon: '0-1', path: '/babies' },
   { id: 'toddlers', label: '1–2', color: '#e0e7ff', icon: '1-2', path: '/toddlers' },
   { id: 'preschool', label: '2–4', color: '#dcfce7', icon: '2-4', path: '/preschool' },
+  { id: 'junior', label: '4–6', color: '#fef9c3', icon: '4-6', path: '/junior' },
 ] as const;
 
 export default function HomePage() {
@@ -57,7 +58,9 @@ export default function HomePage() {
           ? '/toddlers'
           : last?.module === 'preschool'
             ? '/preschool'
-            : `/geography/${BR_STATES_PHASE.id}`;
+            : last?.module === 'junior'
+              ? '/junior'
+              : `/geography/${BR_STATES_PHASE.id}`;
 
   return (
     <IonPage>

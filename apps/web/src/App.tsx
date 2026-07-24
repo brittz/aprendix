@@ -32,6 +32,8 @@ import ToddlersHubPage from './features/toddlers/pages/ToddlersHubPage';
 import ToddlerPlayPage from './features/toddlers/pages/ToddlerPlayPage';
 import PreschoolHubPage from './features/preschool/pages/PreschoolHubPage';
 import PreschoolPlayPage from './features/preschool/pages/PreschoolPlayPage';
+import JuniorHubPage from './features/junior/pages/JuniorHubPage';
+import JuniorPlayPage from './features/junior/pages/JuniorPlayPage';
 import { t } from './i18n';
 
 import '@ionic/react/css/core.css';
@@ -55,7 +57,8 @@ function AppTabs() {
     /\/(play|results|review)\//.test(location.pathname) ||
     location.pathname.includes('/babies/play') ||
     location.pathname.includes('/toddlers/play') ||
-    location.pathname.includes('/preschool/play');
+    location.pathname.includes('/preschool/play') ||
+    location.pathname.includes('/junior/play');
 
   return (
     <IonTabs>
@@ -99,6 +102,9 @@ function AppTabs() {
           path="/preschool/play/:activityId"
           component={PreschoolPlayPage}
         />
+
+        <Route exact path="/junior" component={JuniorHubPage} />
+        <Route exact path="/junior/play/:activityId" component={JuniorPlayPage} />
 
         <Route exact path="/home">
           <Redirect to="/tabs/home" />

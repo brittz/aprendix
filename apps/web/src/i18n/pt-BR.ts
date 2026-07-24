@@ -8,8 +8,9 @@ export const ptBR = {
   'home.cta.babies': 'Bebês (0–1)',
   'home.cta.toddlers': '1–2 anos',
   'home.cta.preschool': '2–4 anos',
+  'home.cta.junior': '4–6 anos',
   'home.note':
-    'Gratuito: estímulos 0–4 anos e estados do Brasil.',
+    'Gratuito: estímulos 0–6 anos e estados do Brasil.',
   'home.streak': 'Sessões',
   'home.streakSub': 'partidas registradas',
   'home.level': 'Seu progresso',
@@ -165,6 +166,32 @@ export const ptBR = {
   'preschool.puzzle.title': 'Quebra-cabeça',
   'preschool.puzzle.description': 'Troque as peças até ficar na ordem.',
   'preschool.puzzle.hint': 'Mostre o modelo pequeno no topo como guia.',
+
+  'junior.module': 'Fundamentos 4–6',
+  'junior.rules':
+    'Pontuação leve, sem cronômetro e sem competição. Sessões curtas e calmas.',
+  'junior.caregiver':
+    'Dica para o responsável: leia junto e celebre os acertos sem pressão.',
+  'junior.mute': 'Silenciar',
+  'junior.unmute': 'Som',
+  'junior.softEnd': 'Pausa suave. Podem continuar quando quiserem.',
+  'junior.continueExplore': 'Continuar',
+  'junior.otherActivities': 'Outras atividades',
+  'junior.score': 'Acertos: {{count}}',
+  'junior.missing': 'Atividade não encontrada.',
+
+  'junior.letters.title': 'Letras e sílabas',
+  'junior.letters.description': 'Encontre a letra ou sílaba pedida.',
+  'junior.letters.hint': 'Fale o som da letra/sílaba em voz alta juntos.',
+  'junior.numbers.title': 'Números',
+  'junior.numbers.description': 'Conte os pontos e toque no número certo.',
+  'junior.numbers.hint': 'Contem juntos apontando cada ponto.',
+  'junior.arithmetic.title': 'Soma e subtração',
+  'junior.arithmetic.description': 'Contas simples com apoio visual.',
+  'junior.arithmetic.hint': 'Use os pontos para juntar ou tirar.',
+  'junior.logic.title': 'Lógica',
+  'junior.logic.description': 'Descubra o que vem depois na sequência.',
+  'junior.logic.hint': 'Peça para explicar o padrão em voz alta.',
 
   'geo.title': 'Geografia',
   'geo.pickPhase': 'Categorias',

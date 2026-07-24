@@ -52,10 +52,21 @@ export type PreschoolActivityKind =
   | 'counting'
   | 'puzzle';
 
+export type JuniorActivityKind =
+  | 'letters'
+  | 'numbers'
+  | 'arithmetic'
+  | 'logic';
+
 export interface EarlyActivity {
   id: string;
   ageBand: AgeBandId;
-  kind: BabyActivityKind | ToddlerActivityKind | PreschoolActivityKind | string;
+  kind:
+    | BabyActivityKind
+    | ToddlerActivityKind
+    | PreschoolActivityKind
+    | JuniorActivityKind
+    | string;
   titleKey: string;
   descriptionKey: string;
   licenseTier: LicenseTier;
@@ -101,7 +112,12 @@ export const AGE_BANDS: AgeBandDefinition[] = [
     id: '4-6',
     titleKey: 'bands.4-6.title',
     descriptionKey: 'bands.4-6.description',
-    rules: { scoring: true, timer: false, competition: false },
+    rules: {
+      scoring: true,
+      timer: false,
+      competition: false,
+      suggestedTouchBudget: 12,
+    },
   },
   {
     id: '6-10',
@@ -130,3 +146,10 @@ export function assertBabySafe(rules: AgeBandRules): void {
 
 export const assertToddlerSafe = assertBabySafe;
 export const assertPreschoolSafe = assertBabySafe;
+
+/** Assert 4–6 safety: no timer / competition (light scoring allowed). */
+export function assertJuniorSafe(rules: AgeBandRules): void {
+  if (rules.timer || rules.competition) {
+    throw new Error('Junior band cannot enable timer or competition');
+  }
+}
