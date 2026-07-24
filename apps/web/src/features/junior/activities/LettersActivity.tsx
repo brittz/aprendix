@@ -14,7 +14,7 @@ interface Props {
 
 export default function LettersActivity({ onCorrect }: Props) {
   const [mode, setMode] = useState<'letter' | 'syllable'>('letter');
-  const [target, setTarget] = useState(() => LETTERS[0]!);
+  const [target, setTarget] = useState<string>(LETTERS[0]!);
   const [pulse, setPulse] = useState<string | null>(null);
 
   const pool = mode === 'letter' ? LETTERS : SYLLABLES;
