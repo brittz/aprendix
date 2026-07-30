@@ -15,6 +15,7 @@ import {
   getAgeBand,
   getBabyActivity,
 } from '@aprendix/early-years';
+import FullscreenToggle from '../../../components/FullscreenToggle';
 import { t } from '../../../i18n';
 import type { MessageKey } from '../../../i18n/pt-BR';
 import {
@@ -103,17 +104,24 @@ export default function BabyPlayPage() {
                 ? t(activity.caregiverHintKey as MessageKey)
                 : t('baby.caregiver')}
             </p>
-            <IonButton
-              size="small"
-              fill="outline"
-              onClick={() => {
-                const next = !muted;
-                setBabyMuted(next);
-                setMuted(next);
-              }}
-            >
-              {muted ? t('baby.unmute') : t('baby.mute')}
-            </IonButton>
+            <div className="baby-toolbar-actions">
+              <FullscreenToggle
+                mode="outline"
+                enterLabel={t('ui.fullscreen')}
+                exitLabel={t('ui.fullscreenExit')}
+              />
+              <IonButton
+                size="small"
+                fill="outline"
+                onClick={() => {
+                  const next = !muted;
+                  setBabyMuted(next);
+                  setMuted(next);
+                }}
+              >
+                {muted ? t('baby.unmute') : t('baby.mute')}
+              </IonButton>
+            </div>
           </div>
 
           {softEnd ? (

@@ -167,6 +167,13 @@
   justify-content: space-between;
 }
 
+.preschool-toolbar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+}
+
 @media (min-width: 640px) {
   .preschool-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));

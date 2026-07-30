@@ -6,6 +6,7 @@ import {
   IonToolbar,
 } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
+import FullscreenToggle from '../components/FullscreenToggle';
 import { t } from '../i18n';
 import {
   averageAccuracy,
@@ -64,6 +65,13 @@ export default function ProfilePage() {
 
               <h3 className="profile-section">{t('profile.menu')}</h3>
               <div className="profile-menu">
+                <div className="ax-card profile-link profile-fullscreen">
+                  <FullscreenToggle
+                    mode="outline"
+                    enterLabel={t('ui.fullscreen')}
+                    exitLabel={t('ui.fullscreenExit')}
+                  />
+                </div>
                 <button
                   type="button"
                   className="ax-card profile-link"

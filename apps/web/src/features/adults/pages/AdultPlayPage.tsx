@@ -11,6 +11,7 @@ import {
 import { useCallback, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { getAdultActivity, getAgeBand } from '@aprendix/early-years';
+import FullscreenToggle from '../../../components/FullscreenToggle';
 import { t } from '../../../i18n';
 import type { MessageKey } from '../../../i18n/pt-BR';
 import {
@@ -82,17 +83,24 @@ export default function AdultPlayPage() {
                 ? t(activity.caregiverHintKey as MessageKey)
                 : t('adult.caregiver')}
             </p>
-            <IonButton
-              size="small"
-              fill="outline"
-              onClick={() => {
-                const next = !muted;
-                setBabyMuted(next);
-                setMuted(next);
-              }}
-            >
-              {muted ? t('adult.unmute') : t('adult.mute')}
-            </IonButton>
+            <div className="quiz-toolbar-actions">
+              <FullscreenToggle
+                mode="outline"
+                enterLabel={t('ui.fullscreen')}
+                exitLabel={t('ui.fullscreenExit')}
+              />
+              <IonButton
+                size="small"
+                fill="outline"
+                onClick={() => {
+                  const next = !muted;
+                  setBabyMuted(next);
+                  setMuted(next);
+                }}
+              >
+                {muted ? t('adult.unmute') : t('adult.mute')}
+              </IonButton>
+            </div>
           </div>
 
           {softEnd ? (

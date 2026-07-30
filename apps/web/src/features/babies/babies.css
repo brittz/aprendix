@@ -172,6 +172,13 @@
   justify-content: space-between;
 }
 
+.baby-toolbar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+}
+
 .baby-soft-end {
   text-align: center;
   padding: 1rem;

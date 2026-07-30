@@ -54,5 +54,13 @@
 @media (min-width: 640px) {
   .ax-animal-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    max-width: 36rem;
+  }
+}
+
+@media (min-width: 900px) {
+  .ax-animal-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    max-width: 52rem;
   }
 }

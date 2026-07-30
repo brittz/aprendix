@@ -15,6 +15,7 @@ import {
   getAgeBand,
   getSchoolActivity,
 } from '@aprendix/early-years';
+import FullscreenToggle from '../../../components/FullscreenToggle';
 import { t } from '../../../i18n';
 import type { MessageKey } from '../../../i18n/pt-BR';
 import {
@@ -94,17 +95,24 @@ export default function SchoolPlayPage() {
                 ? t(activity.caregiverHintKey as MessageKey)
                 : t('school.caregiver')}
             </p>
-            <IonButton
-              size="small"
-              fill="outline"
-              onClick={() => {
-                const next = !muted;
-                setBabyMuted(next);
-                setMuted(next);
-              }}
-            >
-              {muted ? t('school.unmute') : t('school.mute')}
-            </IonButton>
+            <div className="quiz-toolbar-actions">
+              <FullscreenToggle
+                mode="outline"
+                enterLabel={t('ui.fullscreen')}
+                exitLabel={t('ui.fullscreenExit')}
+              />
+              <IonButton
+                size="small"
+                fill="outline"
+                onClick={() => {
+                  const next = !muted;
+                  setBabyMuted(next);
+                  setMuted(next);
+                }}
+              >
+                {muted ? t('school.unmute') : t('school.mute')}
+              </IonButton>
+            </div>
           </div>
 
           {softEnd ? (

@@ -72,6 +72,13 @@
   width: 100%;
 }
 
+.profile-fullscreen {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0.55rem 0.75rem;
+}
+
 .profile-link:disabled {
   opacity: 0.5;
 }

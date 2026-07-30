@@ -1,6 +1,8 @@
 export const ptBR = {
   'app.name': 'Aprendix',
   'app.tagline': 'Desenvolvimento cognitivo, com calma.',
+  'ui.fullscreen': 'Tela cheia',
+  'ui.fullscreenExit': 'Sair da tela cheia',
   'home.hello': 'Olá,',
   'home.lede':
     'Plataforma modular de aprendizado — da estimulação para bebês à geografia.',

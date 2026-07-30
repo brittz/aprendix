@@ -15,6 +15,7 @@ import {
   getAgeBand,
   getJuniorActivity,
 } from '@aprendix/early-years';
+import FullscreenToggle from '../../../components/FullscreenToggle';
 import { t } from '../../../i18n';
 import type { MessageKey } from '../../../i18n/pt-BR';
 import {
@@ -94,17 +95,24 @@ export default function JuniorPlayPage() {
                 ? t(activity.caregiverHintKey as MessageKey)
                 : t('junior.caregiver')}
             </p>
-            <IonButton
-              size="small"
-              fill="outline"
-              onClick={() => {
-                const next = !muted;
-                setBabyMuted(next);
-                setMuted(next);
-              }}
-            >
-              {muted ? t('junior.unmute') : t('junior.mute')}
-            </IonButton>
+            <div className="junior-toolbar-actions">
+              <FullscreenToggle
+                mode="outline"
+                enterLabel={t('ui.fullscreen')}
+                exitLabel={t('ui.fullscreenExit')}
+              />
+              <IonButton
+                size="small"
+                fill="outline"
+                onClick={() => {
+                  const next = !muted;
+                  setBabyMuted(next);
+                  setMuted(next);
+                }}
+              >
+                {muted ? t('junior.unmute') : t('junior.mute')}
+              </IonButton>
+            </div>
           </div>
 
           {softEnd ? (

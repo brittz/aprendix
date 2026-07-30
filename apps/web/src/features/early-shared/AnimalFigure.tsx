@@ -2,7 +2,17 @@
 
 import type { ReactElement } from 'react';
 
-export type AnimalId = 'cat' | 'dog' | 'bird' | 'cow' | 'frog' | 'duck';
+export type AnimalId =
+  | 'cat'
+  | 'dog'
+  | 'bird'
+  | 'cow'
+  | 'frog'
+  | 'duck'
+  | 'pig'
+  | 'horse'
+  | 'sheep'
+  | 'chicken';
 
 export interface AnimalVisual {
   id: AnimalId;
@@ -17,6 +27,10 @@ export const EARLY_ANIMALS: AnimalVisual[] = [
   { id: 'cow', label: 'Vaca', bg: '#eceae6' },
   { id: 'frog', label: 'Sapo', bg: '#dff0d8' },
   { id: 'duck', label: 'Pato', bg: '#fff3c4' },
+  { id: 'pig', label: 'Porco', bg: '#f9d6e3' },
+  { id: 'horse', label: 'Cavalo', bg: '#e8d5c4' },
+  { id: 'sheep', label: 'Ovelha', bg: '#eef2f7' },
+  { id: 'chicken', label: 'Galinha', bg: '#ffe6d2' },
 ];
 
 interface FigureProps {
@@ -189,6 +203,107 @@ function DuckFigure() {
   );
 }
 
+function PigFigure() {
+  return (
+    <>
+      <ellipse cx="60" cy="72" rx="36" ry="28" fill="#f2a0b8" />
+      <circle cx="60" cy="48" r="26" fill="#f5b0c4" />
+      <ellipse cx="60" cy="58" rx="12" ry="9" fill="#e87898" />
+      <ellipse cx="55" cy="58" rx="2.2" ry="3" fill="#2b2b2b" />
+      <ellipse cx="65" cy="58" rx="2.2" ry="3" fill="#2b2b2b" />
+      <circle cx="48" cy="44" r="4" fill="#fff" />
+      <circle cx="72" cy="44" r="4" fill="#fff" />
+      <circle cx="49" cy="45" r="2.2" fill="#2b2b2b" />
+      <circle cx="73" cy="45" r="2.2" fill="#2b2b2b" />
+      <ellipse cx="28" cy="42" rx="8" ry="10" fill="#ef8fad" />
+      <ellipse cx="92" cy="42" rx="8" ry="10" fill="#ef8fad" />
+      <path
+        d="M88 88 Q104 78 102 98"
+        fill="none"
+        stroke="#d86a8c"
+        strokeWidth="5"
+        strokeLinecap="round"
+      />
+    </>
+  );
+}
+
+function HorseFigure() {
+  return (
+    <>
+      <ellipse cx="58" cy="78" rx="34" ry="24" fill="#b07a4a" />
+      <ellipse cx="86" cy="48" rx="18" ry="22" fill="#c48956" />
+      <ellipse cx="98" cy="34" rx="14" ry="10" fill="#c48956" />
+      <path d="M108 34 L122 30 L112 44 Z" fill="#8a5a34" />
+      <circle cx="102" cy="30" r="3.5" fill="#2b2b2b" />
+      <path
+        d="M72 28 Q78 8 90 22"
+        fill="none"
+        stroke="#6e4428"
+        strokeWidth="7"
+        strokeLinecap="round"
+      />
+      <path
+        d="M40 98 L36 114 M54 100 L54 116 M70 100 L74 116 M86 96 L92 112"
+        stroke="#8a5a34"
+        strokeWidth="5"
+        strokeLinecap="round"
+      />
+    </>
+  );
+}
+
+function SheepFigure() {
+  return (
+    <>
+      <ellipse cx="60" cy="74" rx="38" ry="28" fill="#f4f6f8" />
+      <circle cx="34" cy="58" r="10" fill="#eceff3" />
+      <circle cx="52" cy="50" r="12" fill="#eceff3" />
+      <circle cx="72" cy="50" r="12" fill="#eceff3" />
+      <circle cx="90" cy="60" r="10" fill="#eceff3" />
+      <circle cx="88" cy="42" r="18" fill="#2f2f2f" />
+      <circle cx="94" cy="38" r="3.5" fill="#fff" />
+      <circle cx="95" cy="39" r="2" fill="#2b2b2b" />
+      <ellipse cx="104" cy="46" rx="7" ry="4" fill="#f0a0a8" />
+      <path
+        d="M42 100 L38 114 M58 102 L58 116 M74 102 L78 116"
+        stroke="#2f2f2f"
+        strokeWidth="4.5"
+        strokeLinecap="round"
+      />
+    </>
+  );
+}
+
+function ChickenFigure() {
+  return (
+    <>
+      <ellipse cx="58" cy="72" rx="30" ry="24" fill="#f2f0ec" />
+      <circle cx="84" cy="48" r="20" fill="#f7f5f1" />
+      <path d="M78 28 L84 12 L90 28 Z" fill="#e24a3a" />
+      <path d="M70 30 L76 16 L82 30 Z" fill="#c93a2c" />
+      <path d="M86 30 L92 16 L98 30 Z" fill="#c93a2c" />
+      <path d="M100 50 L118 48 L104 62 Z" fill="#f08a2a" />
+      <circle cx="90" cy="44" r="4" fill="#fff" />
+      <circle cx="91" cy="45" r="2.2" fill="#2b2b2b" />
+      <ellipse
+        cx="42"
+        cy="68"
+        rx="14"
+        ry="9"
+        fill="#e8a02a"
+        transform="rotate(-20 42 68)"
+      />
+      <path
+        d="M50 94 L46 110 M68 94 L72 110"
+        stroke="#f08a2a"
+        strokeWidth="4"
+        strokeLinecap="round"
+      />
+    </>
+  );
+}
+
 const FIGURES: Record<AnimalId, () => ReactElement> = {
   cat: CatFigure,
   dog: DogFigure,
@@ -196,6 +311,10 @@ const FIGURES: Record<AnimalId, () => ReactElement> = {
   cow: CowFigure,
   frog: FrogFigure,
   duck: DuckFigure,
+  pig: PigFigure,
+  horse: HorseFigure,
+  sheep: SheepFigure,
+  chicken: ChickenFigure,
 };
 
 export function AnimalFigure({ id }: FigureProps) {

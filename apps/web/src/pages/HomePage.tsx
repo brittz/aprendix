@@ -10,6 +10,7 @@ import { notificationsOutline, settingsOutline } from 'ionicons/icons';
 import { IonIcon } from '@ionic/react';
 import { BR_STATES_PHASE } from '@aprendix/content-geography';
 import { aggregatePhaseStats } from '@aprendix/game-core';
+import FullscreenToggle from '../components/FullscreenToggle';
 import { t } from '../i18n';
 import {
   averageAccuracy,
@@ -83,6 +84,10 @@ export default function HomePage() {
               </div>
             </div>
             <IonButtons>
+              <FullscreenToggle
+                enterLabel={t('ui.fullscreen')}
+                exitLabel={t('ui.fullscreenExit')}
+              />
               <button type="button" className="home-icon-btn" aria-label="Notificações">
                 <IonIcon icon={notificationsOutline} />
               </button>

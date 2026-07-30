@@ -151,6 +151,23 @@ function playAnimalSynth(kind: string) {
       playGlide(420, 280, 0.12, 'sawtooth', 0.035, 0);
       playGlide(400, 260, 0.12, 'sawtooth', 0.03, 0.16);
       break;
+    case 'pig':
+      playGlide(280, 360, 0.1, 'sawtooth', 0.04, 0);
+      playGlide(340, 220, 0.16, 'triangle', 0.035, 0.12);
+      break;
+    case 'horse':
+      playGlide(420, 620, 0.18, 'sawtooth', 0.04, 0);
+      playGlide(600, 380, 0.22, 'triangle', 0.035, 0.16);
+      break;
+    case 'sheep':
+      playVibratoTone(320, 0.4, 'sawtooth', 0.035, 7, 18, 0);
+      playGlide(300, 240, 0.28, 'triangle', 0.03, 0.08);
+      break;
+    case 'chicken':
+      playGlide(620, 480, 0.08, 'square', 0.03, 0);
+      playGlide(700, 520, 0.08, 'square', 0.028, 0.1);
+      playGlide(580, 460, 0.1, 'square', 0.026, 0.2);
+      break;
     default:
       playTone(300, 0.35, 'triangle', 0.09);
   }
@@ -159,10 +176,14 @@ function playAnimalSynth(kind: string) {
 const ANIMAL_SAMPLES: Record<string, string> = {
   cat: '/audio/animals/cat.ogg',
   dog: '/audio/animals/dog.ogg',
-  bird: '/audio/animals/bird.mp3',
+  bird: '/audio/animals/bird.wav',
   cow: '/audio/animals/cow.ogg',
   frog: '/audio/animals/frog.oga',
-  duck: '/audio/animals/duck.ogg',
+  duck: '/audio/animals/duck.wav',
+  pig: '/audio/animals/pig.ogg',
+  horse: '/audio/animals/horse.ogg',
+  sheep: '/audio/animals/sheep.ogg',
+  chicken: '/audio/animals/chicken.ogg',
 };
 
 const sampleCache = new Map<string, HTMLAudioElement>();

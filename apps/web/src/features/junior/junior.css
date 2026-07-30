@@ -158,6 +158,13 @@
   justify-content: space-between;
 }
 
+.junior-toolbar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+}
+
 .junior-score {
   margin: 0;
   font-size: 0.92rem;

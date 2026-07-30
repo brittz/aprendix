@@ -172,6 +172,13 @@
   justify-content: space-between;
 }
 
+.toddler-toolbar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+}
+
 @media (min-width: 640px) {
   .toddler-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
