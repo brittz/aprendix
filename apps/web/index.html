@@ -7,8 +7,19 @@
       name="viewport"
       content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="color-scheme" content="light" />
     <title>Aprendix</title>
+    <style>
+      /* Early lock before CSS bundle loads — reduces first-tap zoom on mobile. */
+      html,
+      body {
+        touch-action: manipulation;
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>

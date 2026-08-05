@@ -38,12 +38,38 @@
   --ion-color-primary-tint: #796be3;
 }
 
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  touch-action: manipulation;
+}
+
+html,
+body {
+  /* Blocks double-tap zoom; single-finger pan/scroll still works. */
+  touch-action: manipulation;
+  overscroll-behavior: none;
+}
+
 body {
   margin: 0;
   background: var(--ax-bg);
   color: var(--ax-ink);
   font-family: var(--ion-font-family);
   -webkit-tap-highlight-color: transparent;
+}
+
+/* Play surfaces: keep taps responsive without gesture zoom. */
+.baby-stage,
+.toddler-stage,
+.preschool-stage,
+.junior-stage,
+.quiz-stage,
+.ax-animal-grid,
+.ax-animal-card {
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .rbm-root {
