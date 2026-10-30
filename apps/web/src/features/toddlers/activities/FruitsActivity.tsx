@@ -1,14 +1,19 @@
 import { useCallback, useState } from 'react';
-import { playSoftBlip, resumeBabyAudio } from '../../babies/audio/softAudio';
 import { babyPressHandlers } from '../../early-shared/babyPress';
+import { resumeBabyAudio } from '../../babies/audio/softAudio';
+import { speakWord, unlockSpeech } from '../../../utils/speak';
+import '../pictureCards.css';
 
 const FRUITS = [
-  { id: 'apple', label: 'maçã', color: '#ef4444' },
-  { id: 'banana', label: 'banana', color: '#eab308' },
-  { id: 'grape', label: 'uva', color: '#8b5cf6' },
-  { id: 'orange', label: 'laranja', color: '#f97316' },
-  { id: 'lime', label: 'limão', color: '#84cc16' },
-  { id: 'berry', label: 'morango', color: '#f43f5e' },
+  { id: 'apple', label: 'maçã', image: '/images/fruits/apple.webp' },
+  { id: 'banana', label: 'banana', image: '/images/fruits/banana.jpg' },
+  { id: 'grape', label: 'uva', image: '/images/fruits/grapes.webp' },
+  { id: 'orange', label: 'laranja', image: '/images/fruits/orange.webp' },
+  { id: 'lime', label: 'limão', image: '/images/fruits/lemon.webp' },
+  { id: 'berry', label: 'morango', image: '/images/fruits/strawberry.webp' },
+  { id: 'watermelon', label: 'melancia', image: '/images/fruits/watermelon.webp' },
+  { id: 'pineapple', label: 'abacaxi', image: '/images/fruits/pineapple.webp' },
+  { id: 'pear', label: 'pera', image: '/images/fruits/pear.webp' },
 ] as const;
 
 interface Props {
@@ -17,32 +22,42 @@ interface Props {
 
 export default function FruitsActivity({ onInteract }: Props) {
   const [pulseId, setPulseId] = useState<string | null>(null);
+  const [spokenId, setSpokenId] = useState<string | null>(null);
 
   const onTap = useCallback(
-    (id: string, seed: number) => {
+    (id: string, label: string) => {
       void resumeBabyAudio();
-      playSoftBlip(seed + 2);
+      void unlockSpeech();
+      speakWord(label);
       setPulseId(id);
+      setSpokenId(id);
       onInteract();
-      window.setTimeout(() => setPulseId(null), 220);
+      window.setTimeout(() => setPulseId(null), 280);
     },
     [onInteract],
   );
 
   return (
-    <div className="toddler-grid" role="group" aria-label="Frutas">
-      {FRUITS.map((fruit, index) => (
-        <button
-          key={fruit.id}
-          type="button"
-          className={`toddler-target toddler-shape--circle${
-            pulseId === fruit.id ? ' is-pulse' : ''
-          }`}
-          style={{ background: fruit.color }}
-          aria-label={fruit.label}
-          {...babyPressHandlers(() => onTap(fruit.id, index))}
-        />
-      ))}
+    <div className="ax-picture-shell">
+      <p className="toddler-prompt">Toque na fruta e ouça o nome</p>
+      <div className="ax-picture-grid" role="group" aria-label="Frutas">
+        {FRUITS.map((fruit) => (
+          <button
+            key={fruit.id}
+            type="button"
+            className={`ax-picture-card${pulseId === fruit.id ? ' is-pulse' : ''}${
+              spokenId === fruit.id ? ' is-spoken' : ''
+            }`}
+            aria-label={fruit.label}
+            {...babyPressHandlers(() => onTap(fruit.id, fruit.label))}
+          >
+            <span className="ax-picture-media">
+              <img src={fruit.image} alt="" draggable={false} loading="lazy" />
+            </span>
+            <span className="ax-picture-label">{fruit.label}</span>
+          </button>
+        ))}
+      </div>
     </div>
   );
 }

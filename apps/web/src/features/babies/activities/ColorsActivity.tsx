@@ -1,14 +1,18 @@
 import { useCallback, useState } from 'react';
 import { babyPressHandlers } from '../../early-shared/babyPress';
-import { playColorCue, resumeBabyAudio } from '../audio/softAudio';
+import { resumeBabyAudio } from '../audio/softAudio';
+import { speakWord, unlockSpeech } from '../../../utils/speak';
+import '../../toddlers/pictureCards.css';
 
 const COLORS = [
-  { id: 'red', value: '#d96b5c', label: 'vermelho' },
-  { id: 'yellow', value: '#e6c65c', label: 'amarelo' },
-  { id: 'green', value: '#6faa7c', label: 'verde' },
-  { id: 'blue', value: '#5b8fbf', label: 'azul' },
-  { id: 'purple', value: '#8f7bb8', label: 'roxo' },
-  { id: 'orange', value: '#e09555', label: 'laranja' },
+  { id: 'red', value: '#e35d4d', label: 'vermelho' },
+  { id: 'yellow', value: '#f0c84a', label: 'amarelo' },
+  { id: 'green', value: '#4faf66', label: 'verde' },
+  { id: 'blue', value: '#4a8fd4', label: 'azul' },
+  { id: 'purple', value: '#8b6fc7', label: 'roxo' },
+  { id: 'orange', value: '#f08a3a', label: 'laranja' },
+  { id: 'pink', value: '#f078a8', label: 'rosa' },
+  { id: 'brown', value: '#a67c52', label: 'marrom' },
 ] as const;
 
 interface Props {
@@ -16,28 +20,39 @@ interface Props {
 }
 
 export default function ColorsActivity({ onInteract }: Props) {
-  const [index, setIndex] = useState(0);
-  const [pulse, setPulse] = useState(false);
-  const current = COLORS[index]!;
+  const [pulseId, setPulseId] = useState<string | null>(null);
 
-  const onTap = useCallback(() => {
-    void resumeBabyAudio();
-    playColorCue(index);
-    setPulse(true);
-    onInteract();
-    window.setTimeout(() => {
-      setPulse(false);
-      setIndex((prev) => (prev + 1) % COLORS.length);
-    }, 280);
-  }, [index, onInteract]);
+  const onTap = useCallback(
+    (id: string, label: string) => {
+      void resumeBabyAudio();
+      void unlockSpeech();
+      speakWord(label);
+      setPulseId(id);
+      onInteract();
+      window.setTimeout(() => setPulseId(null), 320);
+    },
+    [onInteract],
+  );
 
   return (
-    <button
-      type="button"
-      className={`baby-color-field${pulse ? ' is-pulse' : ''}`}
-      style={{ background: current.value }}
-      aria-label={current.label}
-      {...babyPressHandlers(onTap)}
-    />
+    <div className="ax-picture-shell">
+      <p className="toddler-prompt">Toque na cor e ouça o nome</p>
+      <div className="ax-picture-grid ax-color-grid" role="group" aria-label="Cores">
+        {COLORS.map((color) => (
+          <button
+            key={color.id}
+            type="button"
+            className={`ax-picture-card ax-color-card${
+              pulseId === color.id ? ' is-pulse' : ''
+            }`}
+            style={{ background: color.value }}
+            aria-label={color.label}
+            {...babyPressHandlers(() => onTap(color.id, color.label))}
+          >
+            <span className="ax-picture-label ax-color-label">{color.label}</span>
+          </button>
+        ))}
+      </div>
+    </div>
   );
 }

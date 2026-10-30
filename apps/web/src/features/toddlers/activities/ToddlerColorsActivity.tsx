@@ -1,16 +1,16 @@
 import { useCallback, useMemo, useState } from 'react';
-import {
-  playColorCue,
-  playSoftBlip,
-  resumeBabyAudio,
-} from '../../babies/audio/softAudio';
 import { babyPressHandlers } from '../../early-shared/babyPress';
+import { resumeBabyAudio } from '../../babies/audio/softAudio';
+import { speakWord, unlockSpeech } from '../../../utils/speak';
+import '../pictureCards.css';
 
 const COLORS = [
   { id: 'red', value: '#ef4444', label: 'vermelho' },
   { id: 'yellow', value: '#eab308', label: 'amarelo' },
   { id: 'green', value: '#22c55e', label: 'verde' },
   { id: 'blue', value: '#3b82f6', label: 'azul' },
+  { id: 'purple', value: '#8b5cf6', label: 'roxo' },
+  { id: 'orange', value: '#f97316', label: 'laranja' },
 ] as const;
 
 interface Props {
@@ -20,6 +20,7 @@ interface Props {
 export default function ToddlerColorsActivity({ onInteract }: Props) {
   const [targetIndex, setTargetIndex] = useState(0);
   const [pulseId, setPulseId] = useState<string | null>(null);
+  const [feedback, setFeedback] = useState<'ok' | 'try' | null>(null);
   const target = COLORS[targetIndex]!;
 
   const options = useMemo(() => {
@@ -29,52 +30,62 @@ export default function ToddlerColorsActivity({ onInteract }: Props) {
   }, [target]);
 
   const onTap = useCallback(
-    async (id: string) => {
-      await resumeBabyAudio();
+    (id: string, label: string) => {
+      void resumeBabyAudio();
+      void unlockSpeech();
       const correct = id === target.id;
+      speakWord(label);
+      setPulseId(id);
       if (correct) {
-        playColorCue(targetIndex);
+        setFeedback('ok');
         onInteract();
-        setPulseId(id);
         window.setTimeout(() => {
           setPulseId(null);
+          setFeedback(null);
           setTargetIndex((n) => (n + 1) % COLORS.length);
-        }, 280);
+        }, 700);
       } else {
-        playSoftBlip(1);
-        setPulseId(id);
-        window.setTimeout(() => setPulseId(null), 180);
+        setFeedback('try');
+        window.setTimeout(() => {
+          setPulseId(null);
+          setFeedback(null);
+        }, 420);
       }
     },
-    [onInteract, target.id, targetIndex],
+    [onInteract, target.id],
   );
 
   return (
-    <div style={{ width: '100%' }}>
-      <p className="toddler-prompt">Encontre a cor</p>
-      <div
-        aria-hidden
-        style={{
-          width: 72,
-          height: 72,
-          borderRadius: 18,
-          background: target.value,
-          margin: '0 auto 1rem',
-          boxShadow: 'var(--ax-shadow)',
-        }}
-      />
-      <div className="toddler-grid" role="group" aria-label="Cores">
+    <div className="ax-picture-shell">
+      <p className="toddler-prompt">Encontre: {target.label}</p>
+      <button
+        type="button"
+        className="ax-color-sample"
+        style={{ background: target.value }}
+        aria-label={`Cor alvo: ${target.label}`}
+        {...babyPressHandlers(() => {
+          void unlockSpeech();
+          speakWord(target.label);
+        })}
+      >
+        <span className="ax-color-label">{target.label}</span>
+      </button>
+      {feedback === 'ok' && <p className="ax-picture-feedback is-ok">Isso! {target.label}</p>}
+      {feedback === 'try' && <p className="ax-picture-feedback">Tente de novo</p>}
+      <div className="ax-picture-grid ax-color-grid" role="group" aria-label="Cores">
         {options.map((color) => (
           <button
             key={`${target.id}-${color.id}`}
             type="button"
-            className={`toddler-target toddler-shape--circle${
+            className={`ax-picture-card ax-color-card${
               pulseId === color.id ? ' is-pulse' : ''
             }${pulseId === color.id && color.id === target.id ? ' is-correct' : ''}`}
             style={{ background: color.value }}
             aria-label={color.label}
-            {...babyPressHandlers(() => void onTap(color.id))}
-          />
+            {...babyPressHandlers(() => onTap(color.id, color.label))}
+          >
+            <span className="ax-picture-label ax-color-label">{color.label}</span>
+          </button>
         ))}
       </div>
     </div>
