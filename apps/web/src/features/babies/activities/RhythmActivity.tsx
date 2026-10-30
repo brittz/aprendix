@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { babyPressHandlers } from '../../early-shared/babyPress';
 import { playBeat, resumeBabyAudio } from '../audio/softAudio';
 
 interface Props {
@@ -19,8 +20,8 @@ export default function RhythmActivity({ onInteract }: Props) {
     return () => window.clearInterval(id);
   }, [auto]);
 
-  const onTap = useCallback(async () => {
-    await resumeBabyAudio();
+  const onTap = useCallback(() => {
+    void resumeBabyAudio();
     if (!auto) {
       setAuto(true);
       onInteract();
@@ -44,7 +45,7 @@ export default function RhythmActivity({ onInteract }: Props) {
         minHeight: 'unset',
       }}
       aria-label="ritmo"
-      onClick={() => void onTap()}
+      {...babyPressHandlers(onTap)}
     />
   );
 }

@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
 import { playSoftBlip, resumeBabyAudio } from '../../babies/audio/softAudio';
+import { babyPressHandlers } from '../../early-shared/babyPress';
 
 const PARTS = [
   { id: 'head', label: 'cabeça', color: '#fda4af', size: 88 },
@@ -16,8 +17,8 @@ export default function BodyPartsActivity({ onInteract }: Props) {
   const [pulseId, setPulseId] = useState<string | null>(null);
 
   const onTap = useCallback(
-    async (id: string, seed: number) => {
-      await resumeBabyAudio();
+    (id: string, seed: number) => {
+      void resumeBabyAudio();
       playSoftBlip(seed);
       setPulseId(id);
       onInteract();
@@ -43,7 +44,7 @@ export default function BodyPartsActivity({ onInteract }: Props) {
             aspectRatio: 'auto',
           }}
           aria-label={part.label}
-          onClick={() => void onTap(part.id, index + 1)}
+          {...babyPressHandlers(() => onTap(part.id, index + 1))}
         />
       ))}
     </div>

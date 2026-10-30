@@ -4,6 +4,7 @@ import {
   playSoftBlip,
   resumeBabyAudio,
 } from '../../babies/audio/softAudio';
+import { babyPressHandlers } from '../../early-shared/babyPress';
 
 const COLORS = [
   { id: 'red', value: '#ef4444', label: 'vermelho' },
@@ -72,7 +73,7 @@ export default function ToddlerColorsActivity({ onInteract }: Props) {
             }${pulseId === color.id && color.id === target.id ? ' is-correct' : ''}`}
             style={{ background: color.value }}
             aria-label={color.label}
-            onClick={() => void onTap(color.id)}
+            {...babyPressHandlers(() => void onTap(color.id))}
           />
         ))}
       </div>

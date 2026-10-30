@@ -12,7 +12,11 @@ export type AnimalId =
   | 'pig'
   | 'horse'
   | 'sheep'
-  | 'chicken';
+  | 'chicken'
+  | 'lion'
+  | 'elephant'
+  | 'monkey'
+  | 'goat';
 
 export interface AnimalVisual {
   id: AnimalId;
@@ -31,6 +35,10 @@ export const EARLY_ANIMALS: AnimalVisual[] = [
   { id: 'horse', label: 'Cavalo', bg: '#e8d5c4' },
   { id: 'sheep', label: 'Ovelha', bg: '#eef2f7' },
   { id: 'chicken', label: 'Galinha', bg: '#ffe6d2' },
+  { id: 'lion', label: 'Leão', bg: '#ffe2b8' },
+  { id: 'elephant', label: 'Elefante', bg: '#e4e8ee' },
+  { id: 'monkey', label: 'Macaco', bg: '#f3e0c4' },
+  { id: 'goat', label: 'Cabra', bg: '#efe6d8' },
 ];
 
 interface FigureProps {
@@ -304,6 +312,98 @@ function ChickenFigure() {
   );
 }
 
+function LionFigure() {
+  return (
+    <>
+      <circle cx="60" cy="58" r="34" fill="#e2a04a" />
+      <circle cx="60" cy="58" r="24" fill="#f0c06a" />
+      <circle cx="50" cy="54" r="4.5" fill="#fff" />
+      <circle cx="70" cy="54" r="4.5" fill="#fff" />
+      <circle cx="51" cy="55" r="2.4" fill="#2b2b2b" />
+      <circle cx="71" cy="55" r="2.4" fill="#2b2b2b" />
+      <ellipse cx="60" cy="66" rx="7" ry="5" fill="#d8893a" />
+      <path
+        d="M52 74 Q60 80 68 74"
+        fill="none"
+        stroke="#2b2b2b"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+      />
+      <ellipse cx="36" cy="88" rx="10" ry="7" fill="#e2a04a" />
+      <ellipse cx="84" cy="88" rx="10" ry="7" fill="#e2a04a" />
+    </>
+  );
+}
+
+function ElephantFigure() {
+  return (
+    <>
+      <ellipse cx="58" cy="70" rx="34" ry="26" fill="#9aa3b0" />
+      <circle cx="40" cy="52" r="22" fill="#aeb6c2" />
+      <ellipse cx="22" cy="52" rx="10" ry="14" fill="#9aa3b0" />
+      <path
+        d="M34 66 Q28 96 42 104"
+        fill="none"
+        stroke="#8b95a3"
+        strokeWidth="10"
+        strokeLinecap="round"
+      />
+      <circle cx="34" cy="46" r="3.5" fill="#2b2b2b" />
+      <path d="M28 58 L18 70" stroke="#eceff3" strokeWidth="3.5" strokeLinecap="round" />
+      <path d="M32 60 L22 74" stroke="#eceff3" strokeWidth="3.5" strokeLinecap="round" />
+      <path
+        d="M48 94 L44 112 M68 96 L70 114 M84 92 L90 110"
+        stroke="#7f8896"
+        strokeWidth="5"
+        strokeLinecap="round"
+      />
+    </>
+  );
+}
+
+function MonkeyFigure() {
+  return (
+    <>
+      <ellipse cx="60" cy="78" rx="28" ry="22" fill="#b07a4a" />
+      <circle cx="60" cy="48" r="26" fill="#c48956" />
+      <ellipse cx="60" cy="56" rx="16" ry="14" fill="#f0d2a8" />
+      <circle cx="50" cy="48" r="4" fill="#fff" />
+      <circle cx="70" cy="48" r="4" fill="#fff" />
+      <circle cx="51" cy="49" r="2.2" fill="#2b2b2b" />
+      <circle cx="71" cy="49" r="2.2" fill="#2b2b2b" />
+      <ellipse cx="60" cy="60" rx="5" ry="3.5" fill="#d89a6a" />
+      <ellipse cx="34" cy="42" rx="8" ry="10" fill="#b07a4a" />
+      <ellipse cx="86" cy="42" rx="8" ry="10" fill="#b07a4a" />
+      <path
+        d="M86 86 Q104 78 100 102"
+        fill="none"
+        stroke="#8a5a34"
+        strokeWidth="6"
+        strokeLinecap="round"
+      />
+    </>
+  );
+}
+
+function GoatFigure() {
+  return (
+    <>
+      <ellipse cx="58" cy="78" rx="32" ry="22" fill="#d8c4a4" />
+      <circle cx="86" cy="50" r="18" fill="#e2d0b4" />
+      <path d="M78 34 L72 14 L84 30 Z" fill="#cbb28e" />
+      <path d="M90 34 L98 12 L96 34 Z" fill="#cbb28e" />
+      <circle cx="92" cy="46" r="3.5" fill="#2b2b2b" />
+      <ellipse cx="104" cy="54" rx="8" ry="4" fill="#f0a0a8" />
+      <path
+        d="M42 98 L38 114 M58 100 L58 116 M74 98 L78 114"
+        stroke="#a88b64"
+        strokeWidth="5"
+        strokeLinecap="round"
+      />
+    </>
+  );
+}
+
 const FIGURES: Record<AnimalId, () => ReactElement> = {
   cat: CatFigure,
   dog: DogFigure,
@@ -315,6 +415,10 @@ const FIGURES: Record<AnimalId, () => ReactElement> = {
   horse: HorseFigure,
   sheep: SheepFigure,
   chicken: ChickenFigure,
+  lion: LionFigure,
+  elephant: ElephantFigure,
+  monkey: MonkeyFigure,
+  goat: GoatFigure,
 };
 
 export function AnimalFigure({ id }: FigureProps) {

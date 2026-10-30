@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
 import { playSoftBlip, resumeBabyAudio } from '../../babies/audio/softAudio';
+import { babyPressHandlers } from '../../early-shared/babyPress';
 
 const FRUITS = [
   { id: 'apple', label: 'maçã', color: '#ef4444' },
@@ -18,8 +19,8 @@ export default function FruitsActivity({ onInteract }: Props) {
   const [pulseId, setPulseId] = useState<string | null>(null);
 
   const onTap = useCallback(
-    async (id: string, seed: number) => {
-      await resumeBabyAudio();
+    (id: string, seed: number) => {
+      void resumeBabyAudio();
       playSoftBlip(seed + 2);
       setPulseId(id);
       onInteract();
@@ -39,7 +40,7 @@ export default function FruitsActivity({ onInteract }: Props) {
           }`}
           style={{ background: fruit.color }}
           aria-label={fruit.label}
-          onClick={() => void onTap(fruit.id, index)}
+          {...babyPressHandlers(() => onTap(fruit.id, index))}
         />
       ))}
     </div>

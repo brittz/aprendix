@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import { playAnimalCue, resumeBabyAudio } from '../babies/audio/softAudio';
 import { AnimalFigure, EARLY_ANIMALS } from './AnimalFigure';
+import { babyPressHandlers } from './babyPress';
 import './animalCards.css';
 
 interface Props {
@@ -12,8 +13,8 @@ export default function EarlyAnimalsActivity({ onInteract }: Props) {
   const [pulseId, setPulseId] = useState<string | null>(null);
 
   const onTap = useCallback(
-    async (id: string) => {
-      await resumeBabyAudio();
+    (id: string) => {
+      void resumeBabyAudio();
       playAnimalCue(id);
       setPulseId(id);
       onInteract();
@@ -31,9 +32,9 @@ export default function EarlyAnimalsActivity({ onInteract }: Props) {
           className={`ax-animal-card${pulseId === animal.id ? ' is-pulse' : ''}`}
           style={{ background: animal.bg }}
           aria-label={animal.label}
-          onClick={() => void onTap(animal.id)}
+          {...babyPressHandlers(() => onTap(animal.id))}
         >
-          <span className="ax-animal-art">
+          <span className="ax-animal-art" aria-hidden>
             <AnimalFigure id={animal.id} />
           </span>
           <span className="ax-animal-label">{animal.label}</span>

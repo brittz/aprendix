@@ -3,12 +3,23 @@ import { heatFill, toCrisisSet } from './heatmap';
 import type { BrazilMapProps, MapViewState } from './types';
 
 const DEFAULT_VIEW: MapViewState = { level: 'country', stateId: null };
+const MIN_SCALE = 0.85;
+const MAX_SCALE = 6;
 
 interface TooltipState {
   x: number;
   y: number;
   name: string;
   stat: string;
+}
+
+function pointerDistance(
+  a: { x: number; y: number },
+  b: { x: number; y: number },
+) {
+  const dx = a.x - b.x;
+  const dy = a.y - b.y;
+  return Math.hypot(dx, dy);
 }
 
 export function BrazilMap({
@@ -30,11 +41,15 @@ export function BrazilMap({
   className,
   readOnly = false,
   showTooltip = true,
+  enablePanZoom = true,
+  showZoomControls = true,
 }: BrazilMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [transform, setTransform] = useState({ x: 0, y: 0, scale: 1 });
   const [dragging, setDragging] = useState(false);
   const dragStart = useRef({ x: 0, y: 0, tx: 0, ty: 0 });
+  const pointers = useRef(new Map<number, { x: number; y: number }>());
+  const pinchStart = useRef<{ dist: number; scale: number } | null>(null);
   const [tooltip, setTooltip] = useState<TooltipState | null>(null);
   const crisisSet = useMemo(() => toCrisisSet(crisisIds), [crisisIds]);
 
@@ -65,43 +80,87 @@ export function BrazilMap({
     return transform;
   }, [focusState, view.level, transform, geometry.width, geometry.height]);
 
-  const panEnabled = !readOnly && view.level === 'country';
+  /** Pan/zoom is independent of readOnly so quiz modes can still inspect the map. */
+  const panZoomEnabled = enablePanZoom && view.level === 'country';
+
+  const clampScale = (scale: number) => Math.min(MAX_SCALE, Math.max(MIN_SCALE, scale));
+
+  const zoomBy = useCallback((delta: number) => {
+    if (!panZoomEnabled) return;
+    setTransform((t) => ({ ...t, scale: clampScale(t.scale + delta) }));
+  }, [panZoomEnabled]);
+
+  const resetView = useCallback(() => {
+    if (!panZoomEnabled) return;
+    setTransform({ x: 0, y: 0, scale: 1 });
+  }, [panZoomEnabled]);
 
   const onWheel = useCallback(
     (e: React.WheelEvent) => {
-      if (!panEnabled) return;
+      if (!panZoomEnabled) return;
       e.preventDefault();
       setTransform((t) => ({
         ...t,
-        scale: Math.min(6, Math.max(0.6, t.scale - e.deltaY * 0.001)),
+        scale: clampScale(t.scale - e.deltaY * 0.001),
       }));
     },
-    [panEnabled],
+    [panZoomEnabled],
   );
 
   const onPointerDown = useCallback(
     (e: React.PointerEvent) => {
-      if (!panEnabled) return;
+      if (!panZoomEnabled) return;
+      pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      containerRef.current?.setPointerCapture(e.pointerId);
+
+      if (pointers.current.size === 2) {
+        const pts = [...pointers.current.values()];
+        pinchStart.current = {
+          dist: pointerDistance(pts[0], pts[1]),
+          scale: transform.scale,
+        };
+        setDragging(false);
+        return;
+      }
+
       setDragging(true);
       dragStart.current = { x: e.clientX, y: e.clientY, tx: transform.x, ty: transform.y };
-      containerRef.current?.setPointerCapture(e.pointerId);
     },
-    [panEnabled, transform.x, transform.y],
+    [panZoomEnabled, transform.scale, transform.x, transform.y],
   );
 
   const onPointerMove = useCallback(
     (e: React.PointerEvent) => {
-      if (!dragging || !panEnabled) return;
+      if (!panZoomEnabled) return;
+      if (!pointers.current.has(e.pointerId)) return;
+      pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+      if (pointers.current.size >= 2 && pinchStart.current) {
+        e.preventDefault();
+        const pts = [...pointers.current.values()];
+        const dist = pointerDistance(pts[0], pts[1]);
+        if (pinchStart.current.dist > 0) {
+          const next = pinchStart.current.scale * (dist / pinchStart.current.dist);
+          setTransform((t) => ({ ...t, scale: clampScale(next) }));
+        }
+        return;
+      }
+
+      if (!dragging) return;
       setTransform((t) => ({
         ...t,
         x: dragStart.current.tx + (e.clientX - dragStart.current.x),
         y: dragStart.current.ty + (e.clientY - dragStart.current.y),
       }));
     },
-    [dragging, panEnabled],
+    [dragging, panZoomEnabled],
   );
 
-  const onPointerUp = useCallback(() => setDragging(false), []);
+  const onPointerUp = useCallback((e: React.PointerEvent) => {
+    pointers.current.delete(e.pointerId);
+    if (pointers.current.size < 2) pinchStart.current = null;
+    if (pointers.current.size === 0) setDragging(false);
+  }, []);
 
   const rootClass = ['rbm-root', dragging ? 'rbm-root--dragging' : '', className]
     .filter(Boolean)
@@ -113,10 +172,12 @@ export function BrazilMap({
     <div
       ref={containerRef}
       className={rootClass}
+      data-allow-zoom={panZoomEnabled ? 'true' : undefined}
       onWheel={onWheel}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
+      onPointerCancel={onPointerUp}
       onPointerLeave={onPointerUp}
     >
       <svg viewBox={geometry.viewBox} width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
@@ -133,6 +194,7 @@ export function BrazilMap({
               selectedId === shape.id ? 'rbm-state--selected' : '',
               accentId === shape.id ? 'rbm-state--accent' : '',
               crisisSet.has(shape.id) ? 'rbm-state--crisis' : '',
+              readOnly ? 'rbm-state--readonly' : '',
             ]
               .filter(Boolean)
               .join(' ');
@@ -148,21 +210,23 @@ export function BrazilMap({
                     : (fillOverrides?.[shape.id] ?? heatFill(data.value, heatDirection))
                 }
                 opacity={isFocus ? 0.35 : 1}
-                onClick={(e) => {
-                  e.stopPropagation();
+                onClick={(ev) => {
+                  if (readOnly) return;
+                  ev.stopPropagation();
                   onStateClick?.(shape.id);
                 }}
-                onDoubleClick={(e) => {
-                  e.stopPropagation();
+                onDoubleClick={(ev) => {
+                  if (readOnly) return;
+                  ev.stopPropagation();
                   onStateDoubleClick?.(shape.id);
                 }}
-                onMouseEnter={(e) => {
+                onMouseEnter={(ev) => {
                   if (!showTooltip || isFocus) return;
                   const rect = containerRef.current?.getBoundingClientRect();
                   if (!rect) return;
                   setTooltip({
-                    x: e.clientX - rect.left + 8,
-                    y: e.clientY - rect.top + 8,
+                    x: ev.clientX - rect.left + 8,
+                    y: ev.clientY - rect.top + 8,
                     name: data.name,
                     stat: data.tooltipStat ?? String(data.value.toFixed(1)),
                   });
@@ -189,21 +253,23 @@ export function BrazilMap({
                   sub.fill ??
                   (sub.value != null ? heatFill(sub.value, heatDirection) : 'var(--rbm-land)')
                 }
-                onClick={(e) => {
-                  e.stopPropagation();
+                onClick={(ev) => {
+                  if (readOnly) return;
+                  ev.stopPropagation();
                   onSubFeatureClick?.(sub.id);
                 }}
-                onDoubleClick={(e) => {
-                  e.stopPropagation();
+                onDoubleClick={(ev) => {
+                  if (readOnly) return;
+                  ev.stopPropagation();
                   onSubFeatureDoubleClick?.(sub.id);
                 }}
-                onMouseEnter={(e) => {
+                onMouseEnter={(ev) => {
                   if (!showTooltip) return;
                   const rect = containerRef.current?.getBoundingClientRect();
                   if (!rect) return;
                   setTooltip({
-                    x: e.clientX - rect.left + 8,
-                    y: e.clientY - rect.top + 8,
+                    x: ev.clientX - rect.left + 8,
+                    y: ev.clientY - rect.top + 8,
                     name: sub.name,
                     stat: sub.tooltipStat ?? (sub.value != null ? String(sub.value.toFixed(1)) : ''),
                   });
@@ -232,6 +298,19 @@ export function BrazilMap({
         <div className="rbm-tooltip" style={{ left: tooltip.x, top: tooltip.y }}>
           <span className="rbm-tooltip__name">{tooltip.name}</span>
           <span className="rbm-tooltip__stat">{tooltip.stat}</span>
+        </div>
+      ) : null}
+      {showZoomControls && panZoomEnabled ? (
+        <div className="rbm-zoom-controls" role="group" aria-label="Zoom do mapa">
+          <button type="button" className="rbm-zoom-btn" aria-label="Aumentar zoom" onClick={() => zoomBy(0.45)}>
+            +
+          </button>
+          <button type="button" className="rbm-zoom-btn" aria-label="Diminuir zoom" onClick={() => zoomBy(-0.45)}>
+            −
+          </button>
+          <button type="button" className="rbm-zoom-btn" aria-label="Resetar zoom" onClick={resetView}>
+            ⌂
+          </button>
         </div>
       ) : null}
     </div>

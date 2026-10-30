@@ -67,6 +67,10 @@ export interface BrazilMapProps {
   readOnly?: boolean;
   /** Hover tooltip with region name/stat. Default true. Disable for quiz/game modes. */
   showTooltip?: boolean;
+  /** Allow pinch/wheel/button zoom and pan at country level (independent of readOnly). */
+  enablePanZoom?: boolean;
+  /** Show +/-/home zoom controls. Default true when pan/zoom is enabled. */
+  showZoomControls?: boolean;
 }
 
 export interface MapNavigationState {

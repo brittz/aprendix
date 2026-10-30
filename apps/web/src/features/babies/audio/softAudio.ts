@@ -168,6 +168,23 @@ function playAnimalSynth(kind: string) {
       playGlide(700, 520, 0.08, 'square', 0.028, 0.1);
       playGlide(580, 460, 0.1, 'square', 0.026, 0.2);
       break;
+    case 'lion':
+      playGlide(180, 120, 0.35, 'sawtooth', 0.045, 0);
+      playVibratoTone(140, 0.45, 'triangle', 0.04, 4, 10, 0.12);
+      break;
+    case 'elephant':
+      playGlide(260, 420, 0.22, 'sawtooth', 0.04, 0);
+      playGlide(400, 180, 0.35, 'triangle', 0.035, 0.18);
+      break;
+    case 'monkey':
+      playGlide(620, 880, 0.1, 'square', 0.03, 0);
+      playGlide(700, 980, 0.1, 'square', 0.028, 0.12);
+      playGlide(560, 760, 0.12, 'square', 0.026, 0.24);
+      break;
+    case 'goat':
+      playVibratoTone(380, 0.35, 'sawtooth', 0.035, 8, 22, 0);
+      playGlide(360, 280, 0.22, 'triangle', 0.03, 0.1);
+      break;
     default:
       playTone(300, 0.35, 'triangle', 0.09);
   }
@@ -176,7 +193,7 @@ function playAnimalSynth(kind: string) {
 const ANIMAL_SAMPLES: Record<string, string> = {
   cat: '/audio/animals/cat.ogg',
   dog: '/audio/animals/dog.ogg',
-  bird: '/audio/animals/bird.wav',
+  bird: '/audio/animals/bird.oga',
   cow: '/audio/animals/cow.ogg',
   frog: '/audio/animals/frog.oga',
   duck: '/audio/animals/duck.wav',
@@ -184,10 +201,27 @@ const ANIMAL_SAMPLES: Record<string, string> = {
   horse: '/audio/animals/horse.ogg',
   sheep: '/audio/animals/sheep.ogg',
   chicken: '/audio/animals/chicken.ogg',
+  lion: '/audio/animals/lion.ogg',
+  elephant: '/audio/animals/elephant.ogg',
+  monkey: '/audio/animals/monkey.oga',
+  goat: '/audio/animals/goat.ogg',
 };
 
 const sampleCache = new Map<string, HTMLAudioElement>();
 const sampleFailed = new Set<string>();
+
+/** Latest tap wins: stop any other animal sample still playing. */
+function stopOtherAnimalSamples(except: string) {
+  for (const [kind, el] of sampleCache) {
+    if (kind === except) continue;
+    try {
+      el.pause();
+      el.currentTime = 0;
+    } catch {
+      /* ignore */
+    }
+  }
+}
 
 function playAnimalSample(kind: string): boolean {
   if (muted) return true;
@@ -225,6 +259,7 @@ function playAnimalSample(kind: string): boolean {
 
 /** Prefer licensed animal samples; fall back to soft synth cues. */
 export function playAnimalCue(kind: string) {
+  stopOtherAnimalSamples(kind);
   if (playAnimalSample(kind)) return;
   playAnimalSynth(kind);
 }

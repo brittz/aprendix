@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
+import { babyPressHandlers } from '../../early-shared/babyPress';
 import { playPop, resumeBabyAudio } from '../audio/softAudio';
 
 const PALETTE = ['#d96b5c', '#e6c65c', '#6faa7c', '#5b8fbf', '#e09555', '#8f7bb8'];
@@ -25,8 +26,8 @@ export default function CauseEffectActivity({ onInteract }: Props) {
   const [popping, setPopping] = useState<string | null>(null);
 
   const onTap = useCallback(
-    async (id: string) => {
-      await resumeBabyAudio();
+    (id: string) => {
+      void resumeBabyAudio();
       playPop();
       setPopping(id);
       onInteract();
@@ -54,7 +55,7 @@ export default function CauseEffectActivity({ onInteract }: Props) {
             background: bubble.color,
           }}
           aria-label="bolha"
-          onClick={() => void onTap(bubble.id)}
+          {...babyPressHandlers(() => onTap(bubble.id))}
         />
       ))}
     </div>

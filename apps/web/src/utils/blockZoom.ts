@@ -3,34 +3,49 @@
  * Kids (especially babies) often multi-touch or tap rapidly, which triggers
  * pinch / double-tap zoom and makes activities hard to use.
  *
- * Complements viewport meta (user-scalable=no) which many browsers ignore.
+ * Important: do NOT preventDefault on touchstart for multi-touch — that blocks
+ * the second finger from activating buttons (common when a baby rests one
+ * thumb on the bezel/screen while tapping with the other hand).
+ *
+ * Map play surfaces opt out via `[data-allow-zoom]` / `.rbm-root`.
  */
 
 function prevent(event: Event) {
   event.preventDefault();
 }
 
-/** Block Safari/iOS gesture zoom (non-standard events). */
+function isZoomAllowedTarget(target: EventTarget | null): boolean {
+  return (
+    target instanceof Element &&
+    Boolean(target.closest('[data-allow-zoom], .rbm-root, .geo-map-frame--fill'))
+  );
+}
+
+/** Block Safari/iOS gesture zoom (non-standard events), except on map surfaces. */
 function blockGestureZoom() {
   for (const type of ['gesturestart', 'gesturechange', 'gestureend'] as const) {
-    document.addEventListener(type, prevent, { passive: false });
+    document.addEventListener(
+      type,
+      (event) => {
+        if (isZoomAllowedTarget(event.target)) return;
+        prevent(event);
+      },
+      { passive: false },
+    );
   }
 }
 
-/** Block pinch (2+ fingers) while keeping single-finger taps/scroll. */
+/**
+ * Block pinch zoom only while fingers are moving (touchmove).
+ * Leaving touchstart alone keeps multi-touch taps working for baby play.
+ */
 function blockPinchZoom() {
   document.addEventListener(
     'touchmove',
     (event) => {
-      if (event.touches.length > 1) prevent(event);
-    },
-    { passive: false },
-  );
-
-  document.addEventListener(
-    'touchstart',
-    (event) => {
-      if (event.touches.length > 1) prevent(event);
+      if (event.touches.length <= 1) return;
+      if (isZoomAllowedTarget(event.target)) return;
+      prevent(event);
     },
     { passive: false },
   );
@@ -38,6 +53,7 @@ function blockPinchZoom() {
 
 /**
  * Some WebViews still allow scale changes; snap back if visualViewport drifts.
+ * Skip while the user is interacting with an allowed zoom surface.
  */
 function watchVisualViewport() {
   const vv = window.visualViewport;
@@ -45,8 +61,8 @@ function watchVisualViewport() {
 
   const resetIfZoomed = () => {
     if (vv.scale <= 1.01) return;
+    if (document.querySelector('[data-allow-zoom]:active, .rbm-root:active')) return;
     window.scrollTo(0, 0);
-    // Re-assert no user scaling via meta (helps some Android WebViews).
     const meta = document.querySelector('meta[name="viewport"]');
     if (meta) {
       meta.setAttribute(

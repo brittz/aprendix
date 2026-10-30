@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react';
+import { babyPressHandlers } from '../../early-shared/babyPress';
 import { playSoftBlip, resumeBabyAudio } from '../audio/softAudio';
 
 const SOURCES = [
@@ -16,8 +17,8 @@ export default function SoundsActivity({ onInteract }: Props) {
   const [pulseId, setPulseId] = useState<number | null>(null);
 
   const onTap = useCallback(
-    async (id: number) => {
-      await resumeBabyAudio();
+    (id: number) => {
+      void resumeBabyAudio();
       playSoftBlip(id * 2);
       setPulseId(id);
       onInteract();
@@ -37,7 +38,7 @@ export default function SoundsActivity({ onInteract }: Props) {
           }`}
           style={{ background: source.color }}
           aria-label={source.label}
-          onClick={() => void onTap(source.id)}
+          {...babyPressHandlers(() => onTap(source.id))}
         />
       ))}
     </div>

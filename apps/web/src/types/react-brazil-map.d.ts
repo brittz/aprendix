@@ -47,6 +47,8 @@ declare module '@federacao/react-brazil-map' {
     className?: string;
     readOnly?: boolean;
     showTooltip?: boolean;
+    enablePanZoom?: boolean;
+    showZoomControls?: boolean;
   }
 
   export const BrazilMap: ComponentType<BrazilMapProps>;

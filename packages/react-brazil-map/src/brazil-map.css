@@ -18,6 +18,39 @@
   height: 100%;
   cursor: grab;
   touch-action: none;
+  overscroll-behavior: none;
+}
+
+.rbm-state--readonly {
+  cursor: default;
+}
+
+.rbm-zoom-controls {
+  position: absolute;
+  right: 0.65rem;
+  bottom: 0.65rem;
+  z-index: 5;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.rbm-zoom-btn {
+  width: 2.4rem;
+  height: 2.4rem;
+  border: 1px solid rgba(31, 36, 48, 0.12);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #1f2430;
+  font-size: 1.2rem;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(31, 36, 48, 0.12);
+  touch-action: manipulation;
+}
+
+.rbm-zoom-btn:active {
+  transform: scale(0.96);
 }
 
 .rbm-root--dragging {

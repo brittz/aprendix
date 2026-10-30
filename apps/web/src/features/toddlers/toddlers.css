@@ -105,7 +105,7 @@
 
 .toddler-target {
   aspect-ratio: 1;
-  min-height: 96px;
+  min-height: 104px;
   border: none;
   border-radius: 20px;
   cursor: pointer;
@@ -113,7 +113,10 @@
   place-items: center;
   font-weight: 800;
   color: #1f2430;
-  transition: transform 0.15s ease, filter 0.15s ease;
+  transition: transform 0.12s ease, filter 0.12s ease;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .toddler-target:active,

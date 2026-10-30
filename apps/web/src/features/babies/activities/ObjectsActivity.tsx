@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react';
+import { babyPressHandlers } from '../../early-shared/babyPress';
 import { playSoftBlip, resumeBabyAudio } from '../audio/softAudio';
 
 const OBJECTS = [
@@ -16,8 +17,8 @@ export default function ObjectsActivity({ onInteract }: Props) {
   const [pulseId, setPulseId] = useState<string | null>(null);
 
   const onTap = useCallback(
-    async (id: string, seed: number) => {
-      await resumeBabyAudio();
+    (id: string, seed: number) => {
+      void resumeBabyAudio();
       playSoftBlip(seed);
       setPulseId(id);
       onInteract();
@@ -37,7 +38,7 @@ export default function ObjectsActivity({ onInteract }: Props) {
           }`}
           style={{ background: object.color }}
           aria-label={object.label}
-          onClick={() => void onTap(object.id, index + 3)}
+          {...babyPressHandlers(() => onTap(object.id, index + 3))}
         />
       ))}
     </div>

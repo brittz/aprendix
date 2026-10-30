@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react';
+import { babyPressHandlers } from '../../early-shared/babyPress';
 import { playColorCue, resumeBabyAudio } from '../audio/softAudio';
 
 const COLORS = [
@@ -19,8 +20,8 @@ export default function ColorsActivity({ onInteract }: Props) {
   const [pulse, setPulse] = useState(false);
   const current = COLORS[index]!;
 
-  const onTap = useCallback(async () => {
-    await resumeBabyAudio();
+  const onTap = useCallback(() => {
+    void resumeBabyAudio();
     playColorCue(index);
     setPulse(true);
     onInteract();
@@ -36,7 +37,7 @@ export default function ColorsActivity({ onInteract }: Props) {
       className={`baby-color-field${pulse ? ' is-pulse' : ''}`}
       style={{ background: current.value }}
       aria-label={current.label}
-      onClick={() => void onTap()}
+      {...babyPressHandlers(onTap)}
     />
   );
 }

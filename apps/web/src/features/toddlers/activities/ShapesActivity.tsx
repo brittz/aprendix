@@ -3,6 +3,7 @@ import {
   playSoftBlip,
   resumeBabyAudio,
 } from '../../babies/audio/softAudio';
+import { babyPressHandlers } from '../../early-shared/babyPress';
 
 const SHAPES = [
   { id: 'circle', label: 'círculo', color: '#6a5ae0', shape: 'circle' },
@@ -19,8 +20,8 @@ export default function ShapesActivity({ onInteract }: Props) {
   const [pulseId, setPulseId] = useState<string | null>(null);
 
   const onTap = useCallback(
-    async (id: string, seed: number) => {
-      await resumeBabyAudio();
+    (id: string, seed: number) => {
+      void resumeBabyAudio();
       playSoftBlip(seed);
       setPulseId(id);
       onInteract();
@@ -40,7 +41,7 @@ export default function ShapesActivity({ onInteract }: Props) {
           }`}
           style={{ background: item.color }}
           aria-label={item.label}
-          onClick={() => void onTap(item.id, index)}
+          {...babyPressHandlers(() => onTap(item.id, index))}
         />
       ))}
     </div>
