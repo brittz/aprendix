@@ -1,7 +1,12 @@
 /** Soft Web Audio helpers for early-years. Animal cues prefer licensed samples. */
 
+import { ANIMAL_SAMPLE_FILES } from '../../early-shared/animalCatalog';
+
 let sharedCtx: AudioContext | null = null;
 let muted = false;
+
+/** Keep kid taps snappy even when Commons clips are long. */
+const SAMPLE_MAX_SEC = 3.6;
 
 export function setBabyMuted(next: boolean) {
   muted = next;
@@ -182,30 +187,84 @@ function playAnimalSynth(kind: string) {
       playGlide(560, 760, 0.12, 'square', 0.026, 0.24);
       break;
     case 'goat':
+    case 'donkey':
       playVibratoTone(380, 0.35, 'sawtooth', 0.035, 8, 22, 0);
       playGlide(360, 280, 0.22, 'triangle', 0.03, 0.1);
       break;
+    case 'rooster':
+    case 'turkey':
+      playGlide(520, 720, 0.12, 'sawtooth', 0.04, 0);
+      playGlide(680, 420, 0.2, 'square', 0.03, 0.14);
+      break;
+    case 'hyena':
+      playGlide(520, 780, 0.1, 'square', 0.035, 0);
+      playGlide(700, 900, 0.12, 'square', 0.03, 0.12);
+      playGlide(480, 700, 0.14, 'triangle', 0.028, 0.26);
+      break;
+    case 'camel':
+      playVibratoTone(160, 0.5, 'sawtooth', 0.04, 4, 14, 0);
+      playGlide(180, 120, 0.4, 'triangle', 0.03, 0.1);
+      break;
+    case 'giraffe':
+      // Giraffes are nearly silent — soft breathy hum.
+      playTone(180, 0.45, 'sine', 0.04);
+      playTone(210, 0.35, 'triangle', 0.03);
+      break;
+    case 'zebra':
+      playGlide(380, 520, 0.14, 'sawtooth', 0.035, 0);
+      playGlide(480, 320, 0.18, 'triangle', 0.03, 0.16);
+      break;
+    case 'hippo':
+      playGlide(120, 90, 0.28, 'sawtooth', 0.045, 0);
+      playGlide(100, 70, 0.35, 'triangle', 0.04, 0.2);
+      break;
+    case 'flamingo':
+      playGlide(680, 520, 0.12, 'sawtooth', 0.03, 0);
+      playGlide(620, 780, 0.14, 'triangle', 0.028, 0.14);
+      break;
+    case 'macaw':
+    case 'parrot':
+    case 'parakeet':
+    case 'budgie':
+      playGlide(900, 1400, 0.1, 'square', 0.04, 0);
+      playGlide(1200, 700, 0.14, 'sawtooth', 0.035, 0.12);
+      playGlide(1000, 1500, 0.1, 'square', 0.03, 0.28);
+      break;
+    case 'howler':
+    case 'gibbon':
+      playGlide(280, 520, 0.35, 'sawtooth', 0.04, 0);
+      playVibratoTone(420, 0.4, 'triangle', 0.035, 6, 20, 0.2);
+      break;
+    case 'jaguar':
+    case 'bear':
+    case 'boar':
+      playGlide(160, 100, 0.28, 'sawtooth', 0.045, 0);
+      playGlide(140, 80, 0.3, 'triangle', 0.04, 0.18);
+      break;
+    case 'wolf':
+      playGlide(420, 680, 0.55, 'sawtooth', 0.035, 0);
+      playGlide(640, 380, 0.45, 'triangle', 0.03, 0.35);
+      break;
+    case 'bee':
+      playVibratoTone(260, 0.55, 'sawtooth', 0.03, 40, 18, 0);
+      break;
+    case 'whale':
+    case 'dolphin':
+      playGlide(520, 980, 0.35, 'sine', 0.05, 0);
+      playGlide(860, 420, 0.4, 'triangle', 0.04, 0.25);
+      break;
+    case 'owl':
+      playTone(320, 0.25, 'triangle', 0.05);
+      window.setTimeout(() => playTone(280, 0.28, 'triangle', 0.045), 280);
+      break;
     default:
-      playTone(300, 0.35, 'triangle', 0.09);
+      // Chirpy / soft default for birds and misc without a dedicated synth.
+      playGlide(720, 980, 0.1, 'sine', 0.05, 0);
+      playGlide(860, 640, 0.12, 'triangle', 0.04, 0.12);
   }
 }
 
-const ANIMAL_SAMPLES: Record<string, string> = {
-  cat: '/audio/animals/cat.ogg',
-  dog: '/audio/animals/dog.ogg',
-  bird: '/audio/animals/bird.oga',
-  cow: '/audio/animals/cow.ogg',
-  frog: '/audio/animals/frog.oga',
-  duck: '/audio/animals/duck.wav',
-  pig: '/audio/animals/pig.ogg',
-  horse: '/audio/animals/horse.ogg',
-  sheep: '/audio/animals/sheep.ogg',
-  chicken: '/audio/animals/chicken.ogg',
-  lion: '/audio/animals/lion.ogg',
-  elephant: '/audio/animals/elephant.ogg',
-  monkey: '/audio/animals/monkey.oga',
-  goat: '/audio/animals/goat.ogg',
-};
+const ANIMAL_SAMPLES: Record<string, string> = { ...ANIMAL_SAMPLE_FILES };
 
 const sampleCache = new Map<string, HTMLAudioElement>();
 const sampleFailed = new Set<string>();
@@ -243,6 +302,13 @@ function playAnimalSample(kind: string): boolean {
 
     el.pause();
     el.currentTime = 0;
+    const stopAt = () => {
+      if (el && el.currentTime >= SAMPLE_MAX_SEC) {
+        el.pause();
+        el.removeEventListener('timeupdate', stopAt);
+      }
+    };
+    el.addEventListener('timeupdate', stopAt);
     const playPromise = el.play();
     if (playPromise) {
       playPromise.catch(() => {
