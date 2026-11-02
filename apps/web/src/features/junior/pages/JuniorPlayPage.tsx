@@ -9,7 +9,7 @@ import {
   IonToolbar,
 } from '@ionic/react';
 import { useCallback, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
   assertJuniorSafe,
   getAgeBand,
@@ -30,23 +30,16 @@ import '../junior.css';
 
 export default function JuniorPlayPage() {
   const { activityId } = useParams<{ activityId: string }>();
-  const history = useHistory();
   const activity = getJuniorActivity(activityId);
   const band = getAgeBand('4-6');
   if (band) assertJuniorSafe(band.rules);
-  const budget = band?.rules.suggestedTouchBudget ?? 12;
 
   const [score, setScore] = useState(0);
   const [muted, setMuted] = useState(isBabyMuted());
-  const [softEnd, setSoftEnd] = useState(false);
 
   const onCorrect = useCallback(() => {
-    setScore((n) => {
-      const next = n + 1;
-      if (next >= budget) setSoftEnd(true);
-      return next;
-    });
-  }, [budget]);
+    setScore((n) => n + 1);
+  }, []);
 
   if (!activity || !band) {
     return (
@@ -115,32 +108,7 @@ export default function JuniorPlayPage() {
             </div>
           </div>
 
-          {softEnd ? (
-            <div className="junior-soft-end junior-stage">
-              <div>
-                <p>{t('junior.softEnd')}</p>
-                <p className="junior-score">
-                  {t('junior.score', { count: score })}
-                </p>
-                <IonButton
-                  onClick={() => {
-                    setSoftEnd(false);
-                    setScore(0);
-                  }}
-                >
-                  {t('junior.continueExplore')}
-                </IonButton>
-                <IonButton
-                  fill="clear"
-                  onClick={() => history.replace('/junior')}
-                >
-                  {t('junior.otherActivities')}
-                </IonButton>
-              </div>
-            </div>
-          ) : (
-            <div className="junior-stage">{body}</div>
-          )}
+          <div className="junior-stage">{body}</div>
 
           <p className="junior-score" aria-live="polite">
             {score > 0 ? t('junior.score', { count: score }) : '\u00a0'}

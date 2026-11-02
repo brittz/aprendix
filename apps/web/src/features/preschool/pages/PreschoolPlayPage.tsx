@@ -9,7 +9,7 @@ import {
   IonToolbar,
 } from '@ionic/react';
 import { useCallback, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
   assertPreschoolSafe,
   getAgeBand,
@@ -32,23 +32,12 @@ import '../preschool.css';
 
 export default function PreschoolPlayPage() {
   const { activityId } = useParams<{ activityId: string }>();
-  const history = useHistory();
   const activity = getPreschoolActivity(activityId);
   const band = getAgeBand('2-4');
   if (band) assertPreschoolSafe(band.rules);
-  const budget = band?.rules.suggestedTouchBudget ?? 12;
 
-  const [touches, setTouches] = useState(0);
   const [muted, setMuted] = useState(isBabyMuted());
-  const [softEnd, setSoftEnd] = useState(false);
-
-  const onInteract = useCallback(() => {
-    setTouches((n) => {
-      const next = n + 1;
-      if (next >= budget) setSoftEnd(true);
-      return next;
-    });
-  }, [budget]);
+  const onInteract = useCallback(() => undefined, []);
 
   if (!activity || !band) {
     return (
@@ -121,33 +110,7 @@ export default function PreschoolPlayPage() {
             </div>
           </div>
 
-          {softEnd ? (
-            <div className="preschool-soft-end preschool-stage">
-              <div>
-                <p>{t('preschool.softEnd')}</p>
-                <IonButton
-                  onClick={() => {
-                    setSoftEnd(false);
-                    setTouches(0);
-                  }}
-                >
-                  {t('preschool.continueExplore')}
-                </IonButton>
-                <IonButton
-                  fill="clear"
-                  onClick={() => history.replace('/preschool')}
-                >
-                  {t('preschool.otherActivities')}
-                </IonButton>
-              </div>
-            </div>
-          ) : (
-            <div className="preschool-stage">{body}</div>
-          )}
-
-          <p className="preschool-caregiver" aria-hidden={touches === 0}>
-            {touches > 0 ? t('preschool.touches', { count: touches }) : '\u00a0'}
-          </p>
+          <div className="preschool-stage">{body}</div>
         </div>
       </IonContent>
     </IonPage>

@@ -9,7 +9,7 @@ import {
   IonToolbar,
 } from '@ionic/react';
 import { useCallback, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
   assertSchoolSafe,
   getAgeBand,
@@ -30,23 +30,16 @@ import '../../early-shared/quizShell.css';
 
 export default function SchoolPlayPage() {
   const { activityId } = useParams<{ activityId: string }>();
-  const history = useHistory();
   const activity = getSchoolActivity(activityId);
   const band = getAgeBand('6-10');
   if (band) assertSchoolSafe(band.rules);
-  const budget = band?.rules.suggestedTouchBudget ?? 14;
 
   const [score, setScore] = useState(0);
   const [muted, setMuted] = useState(isBabyMuted());
-  const [softEnd, setSoftEnd] = useState(false);
 
   const onCorrect = useCallback(() => {
-    setScore((n) => {
-      const next = n + 1;
-      if (next >= budget) setSoftEnd(true);
-      return next;
-    });
-  }, [budget]);
+    setScore((n) => n + 1);
+  }, []);
 
   if (!activity || !band || activity.externalPath) {
     return (
@@ -115,27 +108,7 @@ export default function SchoolPlayPage() {
             </div>
           </div>
 
-          {softEnd ? (
-            <div className="quiz-soft-end quiz-stage">
-              <div>
-                <p>{t('school.softEnd')}</p>
-                <p className="quiz-score">{t('school.score', { count: score })}</p>
-                <IonButton
-                  onClick={() => {
-                    setSoftEnd(false);
-                    setScore(0);
-                  }}
-                >
-                  {t('school.continueExplore')}
-                </IonButton>
-                <IonButton fill="clear" onClick={() => history.replace('/school')}>
-                  {t('school.otherActivities')}
-                </IonButton>
-              </div>
-            </div>
-          ) : (
-            <div className="quiz-stage">{body}</div>
-          )}
+          <div className="quiz-stage">{body}</div>
 
           <p className="quiz-score" aria-live="polite">
             {score > 0 ? t('school.score', { count: score }) : '\u00a0'}

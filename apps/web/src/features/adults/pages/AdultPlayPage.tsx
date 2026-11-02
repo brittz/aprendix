@@ -9,7 +9,7 @@ import {
   IonToolbar,
 } from '@ionic/react';
 import { useCallback, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { getAdultActivity, getAgeBand } from '@aprendix/early-years';
 import FullscreenToggle from '../../../components/FullscreenToggle';
 import { t } from '../../../i18n';
@@ -25,22 +25,15 @@ import '../../early-shared/quizShell.css';
 
 export default function AdultPlayPage() {
   const { activityId } = useParams<{ activityId: string }>();
-  const history = useHistory();
   const activity = getAdultActivity(activityId);
   const band = getAgeBand('10-plus');
-  const budget = band?.rules.suggestedTouchBudget ?? 16;
 
   const [score, setScore] = useState(0);
   const [muted, setMuted] = useState(isBabyMuted());
-  const [softEnd, setSoftEnd] = useState(false);
 
   const onCorrect = useCallback(() => {
-    setScore((n) => {
-      const next = n + 1;
-      if (next >= budget) setSoftEnd(true);
-      return next;
-    });
-  }, [budget]);
+    setScore((n) => n + 1);
+  }, []);
 
   if (!activity || !band || activity.externalPath) {
     return (
@@ -103,27 +96,7 @@ export default function AdultPlayPage() {
             </div>
           </div>
 
-          {softEnd ? (
-            <div className="quiz-soft-end quiz-stage">
-              <div>
-                <p>{t('adult.softEnd')}</p>
-                <p className="quiz-score">{t('adult.score', { count: score })}</p>
-                <IonButton
-                  onClick={() => {
-                    setSoftEnd(false);
-                    setScore(0);
-                  }}
-                >
-                  {t('adult.continueExplore')}
-                </IonButton>
-                <IonButton fill="clear" onClick={() => history.replace('/adults')}>
-                  {t('adult.otherActivities')}
-                </IonButton>
-              </div>
-            </div>
-          ) : (
-            <div className="quiz-stage">{body}</div>
-          )}
+          <div className="quiz-stage">{body}</div>
 
           <p className="quiz-score" aria-live="polite">
             {score > 0 ? t('adult.score', { count: score }) : '\u00a0'}

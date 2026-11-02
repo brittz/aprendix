@@ -9,7 +9,7 @@ import {
   IonToolbar,
 } from '@ionic/react';
 import { useCallback, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
   assertToddlerSafe,
   getAgeBand,
@@ -33,23 +33,12 @@ import '../toddlers.css';
 
 export default function ToddlerPlayPage() {
   const { activityId } = useParams<{ activityId: string }>();
-  const history = useHistory();
   const activity = getToddlerActivity(activityId);
   const band = getAgeBand('1-2');
   if (band) assertToddlerSafe(band.rules);
-  const budget = band?.rules.suggestedTouchBudget ?? 10;
 
-  const [touches, setTouches] = useState(0);
   const [muted, setMuted] = useState(isBabyMuted());
-  const [softEnd, setSoftEnd] = useState(false);
-
-  const onInteract = useCallback(() => {
-    setTouches((n) => {
-      const next = n + 1;
-      if (next >= budget) setSoftEnd(true);
-      return next;
-    });
-  }, [budget]);
+  const onInteract = useCallback(() => undefined, []);
 
   if (!activity || !band) {
     return (
@@ -124,33 +113,7 @@ export default function ToddlerPlayPage() {
             </div>
           </div>
 
-          {softEnd ? (
-            <div className="toddler-soft-end toddler-stage">
-              <div>
-                <p>{t('toddler.softEnd')}</p>
-                <IonButton
-                  onClick={() => {
-                    setSoftEnd(false);
-                    setTouches(0);
-                  }}
-                >
-                  {t('toddler.continueExplore')}
-                </IonButton>
-                <IonButton
-                  fill="clear"
-                  onClick={() => history.replace('/toddlers')}
-                >
-                  {t('toddler.otherActivities')}
-                </IonButton>
-              </div>
-            </div>
-          ) : (
-            <div className="toddler-stage">{body}</div>
-          )}
-
-          <p className="toddler-caregiver" aria-hidden={touches === 0}>
-            {touches > 0 ? t('toddler.touches', { count: touches }) : '\u00a0'}
-          </p>
+          <div className="toddler-stage">{body}</div>
         </div>
       </IonContent>
     </IonPage>

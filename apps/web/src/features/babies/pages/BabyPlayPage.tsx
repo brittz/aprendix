@@ -9,7 +9,7 @@ import {
   IonToolbar,
 } from '@ionic/react';
 import { useCallback, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
   assertBabySafe,
   getAgeBand,
@@ -33,23 +33,12 @@ import '../babies.css';
 
 export default function BabyPlayPage() {
   const { activityId } = useParams<{ activityId: string }>();
-  const history = useHistory();
   const activity = getBabyActivity(activityId);
   const band = getAgeBand('0-1');
   if (band) assertBabySafe(band.rules);
-  const budget = band?.rules.suggestedTouchBudget ?? 8;
 
-  const [touches, setTouches] = useState(0);
   const [muted, setMuted] = useState(isBabyMuted());
-  const [softEnd, setSoftEnd] = useState(false);
-
-  const onInteract = useCallback(() => {
-    setTouches((n) => {
-      const next = n + 1;
-      if (next >= budget) setSoftEnd(true);
-      return next;
-    });
-  }, [budget]);
+  const onInteract = useCallback(() => undefined, []);
 
   if (!activity || !band) {
     return (
@@ -124,31 +113,7 @@ export default function BabyPlayPage() {
             </div>
           </div>
 
-          {softEnd ? (
-            <div className="baby-soft-end baby-stage">
-              <div>
-                <p>{t('baby.softEnd')}</p>
-                <IonButton
-                  onClick={() => {
-                    setSoftEnd(false);
-                    setTouches(0);
-                  }}
-                >
-                  {t('baby.continueExplore')}
-                </IonButton>
-                <IonButton fill="clear" onClick={() => history.replace('/babies')}>
-                  {t('baby.otherActivities')}
-                </IonButton>
-              </div>
-            </div>
-          ) : (
-            <div className="baby-stage">{body}</div>
-          )}
-
-          {/* Caregiver-only quiet counter — never presented as score */}
-          <p className="baby-caregiver" aria-hidden={touches === 0}>
-            {touches > 0 ? t('baby.touches', { count: touches }) : '\u00a0'}
-          </p>
+          <div className="baby-stage">{body}</div>
         </div>
       </IonContent>
     </IonPage>
